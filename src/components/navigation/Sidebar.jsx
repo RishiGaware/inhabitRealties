@@ -7,6 +7,9 @@ import { MdOutlineHeadsetMic, MdSpaceDashboard, MdAssignment, MdInventory, MdPay
 import { TbLayoutSidebarLeftCollapse, TbLayoutSidebarLeftExpand } from "react-icons/tb";
 import { TiCalendar } from "react-icons/ti";
 import logown from '../../assets/images/logown.png'
+import PropertyMaster from '../../pages/property/PropertyMaster';
+import PropertyTypes from '../../pages/property/PropertyTypes';
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
   const Menus = [
@@ -93,7 +96,36 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
     
     // Settings
     { title: "Settings", icon: <FaCog />, gap: true, key: "settings" },
+
+    // Property
+    { 
+      title: "Property", 
+      icon: <MdOutlineHeadsetMic />,
+      gap: true,
+      subMenu: [
+        "Property Master",
+        "Property Types"
+      ],
+      key: "property"
+    },
   ];
+
+  const navigate = useNavigate();
+
+  // Helper to convert to kebab-case
+  const toKebab = str => str && str.toLowerCase().replace(/ /g, '-');
+
+  const handleMenuClick = (menu) => {
+    if (!menu.subMenu) {
+      navigate(`/${toKebab(menu.key)}`);
+    } else {
+      toggleSubMenu(menu.key);
+    }
+  };
+
+  const handleSubMenuClick = (menu, subMenu) => {
+    navigate(`/${toKebab(menu.key)}/${toKebab(subMenu)}`);
+  };
 
   return (
     <>
@@ -144,8 +176,9 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
               <li 
                 key={index} 
                 className={`flex flex-col rounded-md py-3 px-4 cursor-pointer text-light-darkText transition-all ease-in-out duration-300 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-card"} hover:bg-light-secondary hover:text-light-primary`}
+                onClick={() => handleMenuClick(Menu)}
               >
-                <div className="flex items-center justify-between gap-x-4" onClick={() => toggleSubMenu(Menu.key)}>
+                <div className="flex items-center justify-between gap-x-4">
                   <div className="flex items-center gap-2">
                     <span className="text-lg">
                       {Menu.icon}
@@ -164,7 +197,7 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
                 {Menu.subMenu && subMenus[Menu.key] && (
                   <ul className="pl-3 pt-4 text-light-darkText">
                     {Menu.subMenu.map((subMenu, subIndex) => (
-                      <li key={subIndex} className="text-sm flex items-center gap-x-2 py-3 px-2 rounded-lg hover:bg-light-secondary hover:text-light-primary">
+                      <li key={subIndex} className="text-sm flex items-center gap-x-2 py-3 px-2 rounded-lg hover:bg-light-secondary hover:text-light-primary" onClick={e => { e.stopPropagation(); handleSubMenuClick(Menu, subMenu); }}>
                         <span className="text-light-primary">
                           <FaChevronRight className="text-xs" />
                         </span>
