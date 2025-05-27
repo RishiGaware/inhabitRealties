@@ -6,6 +6,7 @@ import { GoGraph } from "react-icons/go";
 import { MdOutlineHeadsetMic, MdSpaceDashboard, MdAssignment, MdInventory, MdPayment, MdPerson } from "react-icons/md";
 import { TbLayoutSidebarLeftCollapse, TbLayoutSidebarLeftExpand } from "react-icons/tb";
 import { TiCalendar } from "react-icons/ti";
+import logown from '../../assets/images/logown.png'
 
 const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
   const Menus = [
@@ -120,17 +121,19 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
             </div>
           )}
           {/* Logo and title */}
-          <div className="flex gap-x-4 items-center">
+          <div className="flex gap-x-4 items-center h-10">
             <img 
               src="https://cdn.pixabay.com/photo/2017/02/18/19/20/logo-2078018_640.png" 
               alt="logo" 
               className={`w-8 h-8 md:w-10 md:h-10 rounded-full object-cover object-center cursor-pointer ease-in-out duration-300 ${open && "rotate-[360deg]"}`} 
             />
-            <div className={`overflow-hidden transition-all duration-300 ${!open && "w-0"}`}>
-              <h1 className="text-light-darkText font-semibold text-xs md:text-sm whitespace-nowrap">
-                IR
-              </h1>
-            </div>
+            {open && (
+              <img 
+                src={logown} 
+                alt="Inhabit Realties Logo" 
+                className="w-40 h-10 object-contain cursor-pointer ease-in-out duration-300" 
+              />
+            )}
           </div>
         </div>
 
@@ -161,7 +164,7 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
                 {Menu.subMenu && subMenus[Menu.key] && (
                   <ul className="pl-3 pt-4 text-light-darkText">
                     {Menu.subMenu.map((subMenu, subIndex) => (
-                      <li key={subIndex} className="text-sm flex items-center gap-x-2 py-3 px-2 hover:bg-light-secondary rounded-lg">
+                      <li key={subIndex} className="text-sm flex items-center gap-x-2 py-3 px-2 rounded-lg hover:bg-light-secondary hover:text-light-primary">
                         <span className="text-light-primary">
                           <FaChevronRight className="text-xs" />
                         </span>
