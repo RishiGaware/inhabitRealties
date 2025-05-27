@@ -1,15 +1,32 @@
 import React from "react";
-import { FaBell, FaSearch } from "react-icons/fa";
+import { FaBell, FaSearch, FaBars } from "react-icons/fa";
 
-const Navbar = () => (
-  <div className="w-full h-[8ch] px-12 bg-zinc-50 shadow-md flex items-center justify-between">
-    <div className="w-96 border border-zinc-300 rounded-full h-11 flex items-center justify-center">
-      <input type="text" placeholder="Search..." className="flex-1 h-full rounded-full outline-none border-none bg-zinc-50 px-4" />
-      <button className="px-4 h-full flex items-center justify-center text-base text-zinc-600 border-l border-zinc-300">
-        <FaSearch />
-      </button>
+const Navbar = ({ open, setOpen, isMobile }) => (
+  <div
+    className={`h-[8ch] px-4 md:px-12 bg-zinc-50 shadow-md flex items-center justify-between z-10 transition-all duration-300 fixed top-0`}
+    style={{
+      left: isMobile ? 0 : open ? '18rem' : '5rem',
+      width: isMobile ? '100vw' : `calc(100vw - ${open ? '18rem' : '5rem'})`,
+    }}
+  >
+    <div className="flex items-center gap-4">
+      {isMobile && (
+        <button onClick={() => setOpen(!open)} className="text-xl text-zinc-600">
+          <FaBars />
+        </button>
+      )}
+      <div className="w-48 md:w-96 border border-zinc-300 rounded-full h-11 flex items-center justify-center">
+        <input 
+          type="text" 
+          placeholder="Search..." 
+          className="flex-1 h-full rounded-full outline-none border-none bg-zinc-50 px-4 text-sm md:text-base" 
+        />
+        <button className="px-4 h-full flex items-center justify-center text-base text-zinc-600 border-l border-zinc-300">
+          <FaSearch />
+        </button>
+      </div>
     </div>
-    <div className="flex items-center gap-x-8">
+    <div className="flex items-center gap-x-4 md:gap-x-8">
       {/* Notification */}
       <button className="relative">
         <div className="w-5 h-5 bg-zinc-50 flex items-center justify-center absolute -top-1.5 -right-2.5 rounded-full p-0.5">
@@ -18,7 +35,11 @@ const Navbar = () => (
         <FaBell className="text-xl" />
       </button>
       {/* Profile img */}
-      <img src="https://cdn.pixabay.com/photo/2016/11/21/11/17/model-1844729_640.jpg" alt="profile img" className="w-11 h-11 rounded-full object-cover object-center cursor-pointer" />
+      <img 
+        src="https://cdn.pixabay.com/photo/2016/11/21/11/17/model-1844729_640.jpg" 
+        alt="profile img" 
+        className="w-8 h-8 md:w-11 md:h-11 rounded-full object-cover object-center cursor-pointer" 
+      />
     </div>
   </div>
 );

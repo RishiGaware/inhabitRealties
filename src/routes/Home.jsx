@@ -14,10 +14,11 @@ const Home = () => {
       <Stack spacing={{ base: 8, md: 16 }}>
         <Banner />
         <GetStarted />
-        <ImageSlider />
         <PropertyAnimations />
         <Search />
         <HouseList />
+        <ImageSlider />
+
         <Features />
         <AboutUs />
       </Stack>
