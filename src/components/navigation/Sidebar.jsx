@@ -104,16 +104,16 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
         />
       )}
       <div 
-        className={`${open ? "w-72" : "w-20"} ${isMobile ? "fixed" : "fixed"} bg-zinc-900 h-screen pt-8 z-30 transition-all duration-300 ease-in-out ${
+        className={`${open ? "w-72" : "w-20"} ${isMobile ? "fixed" : "fixed"} bg-light-card shadow-lg h-screen pt-8 z-30 transition-all duration-300 ease-in-out ${
           isMobile && !open ? "-translate-x-full" : "translate-x-0"
         }`}
       >
         {/* Fixed header section */}
-        <div className="px-4 fixed top-0 left-0 w-full bg-zinc-900 pt-8 pb-4 z-10">
+        <div className="px-4 fixed top-0 left-0 w-full bg-light-background pt-8 pb-4 z-10">
           {/* Toggle button */}
           {!isMobile && (
             <div 
-              className={`absolute cursor-pointer -right-4 top-9 w-8 h-8 p-0.5 bg-zinc-50 border-zinc-50 border-2 rounded-full text-xl flex items-center justify-center ${!open && "rotate-180"} transition-all ease-in-out duration-300`}
+              className={`absolute cursor-pointer -right-4 top-9 w-8 h-8 p-0.5 bg-light-card border-light-card border-2 rounded-full text-xl flex items-center justify-center ${!open && "rotate-180"} transition-all ease-in-out duration-300`}
               onClick={() => setOpen(!open)}
             >
               {open ? <TbLayoutSidebarLeftExpand /> : <TbLayoutSidebarLeftCollapse />}
@@ -127,8 +127,8 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
               className={`w-8 h-8 md:w-10 md:h-10 rounded-full object-cover object-center cursor-pointer ease-in-out duration-300 ${open && "rotate-[360deg]"}`} 
             />
             <div className={`overflow-hidden transition-all duration-300 ${!open && "w-0"}`}>
-              <h1 className="text-zinc-50 font-semibold text-base md:text-xl whitespace-nowrap">
-                InhabitRealties
+              <h1 className="text-light-darkText font-semibold text-xs md:text-sm whitespace-nowrap">
+                IR
               </h1>
             </div>
           </div>
@@ -140,7 +140,7 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
             {Menus.map((Menu, index) => (
               <li 
                 key={index} 
-                className={`flex flex-col rounded-md py-3 px-4 cursor-pointer hover:text-white text-zinc-50 hover:bg-zinc-800/50 transition-all ease-in-out duration-300 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-zinc-800/40"}`}
+                className={`flex flex-col rounded-md py-3 px-4 cursor-pointer text-light-darkText transition-all ease-in-out duration-300 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-card"} hover:bg-light-secondary hover:text-light-primary`}
               >
                 <div className="flex items-center justify-between gap-x-4" onClick={() => toggleSubMenu(Menu.key)}>
                   <div className="flex items-center gap-2">
@@ -159,10 +159,10 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
                 </div>
                 {/* Sidebar submenus */}
                 {Menu.subMenu && subMenus[Menu.key] && (
-                  <ul className="pl-3 pt-4 text-zinc-300">
+                  <ul className="pl-3 pt-4 text-light-darkText">
                     {Menu.subMenu.map((subMenu, subIndex) => (
-                      <li key={subIndex} className="text-sm flex items-center gap-x-2 py-3 px-2 hover:bg-zinc-800 rounded-lg">
-                        <span className="text-zinc-4">
+                      <li key={subIndex} className="text-sm flex items-center gap-x-2 py-3 px-2 hover:bg-light-secondary rounded-lg">
+                        <span className="text-light-primary">
                           <FaChevronRight className="text-xs" />
                         </span>
                         <span className="truncate">{subMenu}</span>

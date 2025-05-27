@@ -5,7 +5,7 @@ import AppSidebar from "../../../components/nevigation/App";
 const Dashboard = () => (
   <>
   <DashboardLayout>
-    <h1 className="text-xl text-zinc-800 font-medium">
+    <h1 className="text-xl text-light-darkText font-medium">
       This is the Dashboard page.
     </h1>
   </DashboardLayout>

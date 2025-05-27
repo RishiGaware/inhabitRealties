@@ -1,1 +1,18 @@
+:root {
+  --light-background: #F9FAFB;
+  --light-card-background: #FFFFFF;
+  --light-dark-text: #464646;
+  --light-success: #8AC640;
+  --light-danger: #EB5463;
+  --light-warning: #FFCE55;
+  --light-primary: #5E9BEB;
+  --light-secondary: #00726D;
+  --light-shadow-color: rgba(0, 0, 0, 0.1);
+
+  --brand-secondary: #A300A3;
+  --brand-primary: #D902DB;
+  --brand-turnary: #6C026B;
+  --brand-gradient: linear-gradient(to right, #A300A3, #D902DB, #6C026B);
+}
+
 @import "tailwindcss";

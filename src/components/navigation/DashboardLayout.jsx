@@ -39,7 +39,7 @@ const DashboardLayout = ({ children }) => {
     <div className="w-full flex">
       <Sidebar open={open} setOpen={setOpen} subMenus={subMenus} toggleSubMenu={toggleSubMenu} isMobile={isMobile} />
       <div
-        className={`flex-1 min-h-screen bg-zinc-100 relative transition-all duration-300 ${
+        className={`flex-1 min-h-screen bg-light-background relative transition-all duration-300 ${
           isMobile
             ? 'w-full ml-0'
             : open
