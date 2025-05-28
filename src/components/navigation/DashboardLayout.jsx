@@ -3,21 +3,25 @@ import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 
 const DashboardLayout = ({ children }) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [subMenus, setSubMenus] = useState({
-    calendar: false,
-    support: false,
-    tables: false,
-    analytics: false,
-    inbox: false,
+    admin: false,
+    leads: false,
+    customers: false,
+    bookings: false,
+    payments: false,
+    postSale: false,
+    client: false,
     settings: false,
+    property: false,
   });
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-      if (window.innerWidth < 768) {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (mobile) {
         setOpen(false);
       } else {
         setOpen(true);
@@ -48,7 +52,7 @@ const DashboardLayout = ({ children }) => {
         }`}
       >
         <div className="fixed top-0 left-0 w-full z-10" style={{ marginLeft: isMobile ? 0 : open ? '18rem' : '5rem' }}>
-          <Navbar open={open} setOpen={setOpen} isMobile={isMobile} />
+        <Navbar open={open} setOpen={setOpen} isMobile={isMobile} />
         </div>
         <div
           className="w-full px-4 md:px-12 pt-[8ch] pb-4 overflow-y-auto"

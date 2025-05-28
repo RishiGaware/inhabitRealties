@@ -6,8 +6,8 @@ const MotionBox = motion(Box);
 const MotionIcon = motion(Icon);
 
 const AboutUs = () => {
-  const bgColor = useColorModeValue("light.background", "gray.800");
-  const cardBg = useColorModeValue("white", "gray.700");
+  const bgColor = useColorModeValue("light.background", "light.background");
+  const cardBg = useColorModeValue("light.cardBackground", "light.cardBackground");
 
   const features = [
     {

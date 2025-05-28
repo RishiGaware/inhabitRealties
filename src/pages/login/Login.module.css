@@ -64,22 +64,22 @@
 .input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #E5E7EB;
+  border: 1px solid var(--lightShadowColor);
   border-radius: 8px;
   font-size: 14px;
-  background-color: #FFFFFF;
-  color: #464646;
+  background-color: var(--lightCardBackground);
+  color: var(--lightDarkText);
   transition: all 0.3s ease;
 }
 
 .input:focus {
   outline: none;
-  border-color: #5E9BEB;
+  border-color: var(--lightPrimary);
   box-shadow: 0 0 0 2px rgba(94, 155, 235, 0.1);
 }
 
 .inputError {
-  border-color: #EB5463;
+  border-color: var(--lightDanger);
 }
 
 .floatingLabel {
@@ -87,9 +87,9 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  background-color: #FFFFFF;
+  background-color: var(--lightCardBackground);
   padding: 0 5px;
-  color: #6B7280;
+  color: var(--lightDarkText);
   transition: all 0.3s ease;
   pointer-events: none;
 }
@@ -98,11 +98,11 @@
 .input:not(:placeholder-shown) + .floatingLabel {
   top: 0;
   font-size: 12px;
-  color: #5E9BEB;
+  color: var(--lightPrimary);
 }
 
 .errorText {
-  color: #EB5463;
+  color: var(--lightDanger);
   font-size: 12px;
   margin-top: 4px;
   display: block;
@@ -114,7 +114,7 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #666;
+  color: var(--lightDarkText);
 }
 
 .forgotPassword {
@@ -136,14 +136,14 @@
 }
 
 .forgotPasswordBtn:hover {
-  color: #4a8ad9;
+  color: var(--lightPrimary);
 }
 
 .signInButton {
   width: 100%;
   padding: 12px;
-  background-color: #5E9BEB;
-  color: white;
+  background-color: var(--lightPrimary);
+  color: var(--lightCardBackground);
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -153,11 +153,11 @@
 }
 
 .signInButton:hover {
-  background-color: #4A8AD9;
+  background-color: var(--lightPrimary);
 }
 
 .signInButton:disabled {
-  background-color: #ccc;
+  background-color: var(--lightShadowColor);
   cursor: not-allowed;
 }
 
@@ -204,17 +204,17 @@
 }
 
 .modal {
-  background: #FFFFFF;
+  background: var(--lightCardBackground);
   padding: 2rem;
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
   position: relative;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--lightShadowColor);
 }
 
 .modal h2 {
-  color: #464646;
+  color: var(--lightDarkText);
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
 }
@@ -226,21 +226,21 @@
 .modalInputGroup label {
   display: block;
   margin-bottom: 0.5rem;
-  color: black;
+  color: var(--lightDarkText);
   font-weight: 500;
 }
 
 .modalInputGroup input {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--lightShadowColor);
   border-radius: 4px;
   font-size: 1rem;
-  color: black;
+  color: var(--lightDarkText);
 }
 
 .modalInputGroup input::placeholder {
-  color: #666;
+  color: var(--lightDarkText);
 }
 
 .modalButtons {
@@ -250,8 +250,8 @@
 }
 
 .submitBtn {
-  background-color: #5E9BEB;
-  color: white;
+  background-color: var(--lightPrimary);
+  color: var(--lightCardBackground);
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
@@ -261,12 +261,12 @@
 }
 
 .submitBtn:hover {
-  background-color: #4A8AD9;
+  background-color: var(--lightPrimary);
 }
 
 .cancelBtn {
-  background-color: #ccc;
-  color: white;
+  background-color: var(--lightShadowColor);
+  color: var(--lightCardBackground);
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
@@ -276,7 +276,7 @@
 }
 
 .cancelBtn:hover {
-  background-color: #999;
+  background-color: var(--lightShadowColor);
 }
 
 .closeModal {
@@ -287,17 +287,17 @@
   border: none;
   font-size: 1.25rem;
   cursor: pointer;
-  color: #666;
+  color: var(--lightDarkText);
 }
 
 .resetSuccess {
   text-align: center;
-  color: #464646;
+  color: var(--lightDarkText);
   padding: 1rem;
 }
 
 .resetError {
-  color: #EB5463;
+  color: var(--lightDanger);
   margin-bottom: 1rem;
   padding: 0.5rem;
   background-color: rgba(235, 84, 99, 0.1);
@@ -315,13 +315,13 @@
 .line {
   width: 25%;
   height: 1px;
-  background-color: #ccc;
+  background-color: var(--lightShadowColor);
   border: none;
 }
 
 .divider span {
   margin: 0 10px;
-  color: #888;
+  color: var(--lightDarkText);
   font-size: 14px;
   white-space: nowrap;
 }
@@ -337,32 +337,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--lightShadowColor);
   transition: all 0.3s ease;
 }
 
 /* Google */
 .google {
-  background-color: white;
-  color: #333;
-  border: 1px solid #ccc;
+  background-color: var(--lightCardBackground);
+  color: var(--lightDarkText);
+  border: 1px solid var(--lightShadowColor);
 }
 
 .google:hover {
-  background-color: #f1f1f1;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  background-color: var(--lightBackground);
+  box-shadow: 0 6px 10px var(--lightShadowColor);
 }
 
 /* Facebook */
 .facebook {
-  background-color: white;
-  color: #4a4a4a;
-  border: 1px solid #ccc;
+  background-color: var(--lightCardBackground);
+  color: var(--lightDarkText);
+  border: 1px solid var(--lightShadowColor);
 }
 
 .facebook:hover {
-  background-color: #f1f7ff;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  background-color: var(--lightBackground);
+  box-shadow: 0 6px 10px var(--lightShadowColor);
 }
 
 .signupText {
@@ -382,12 +382,12 @@
 }
 
 .signupLink:hover {
-  color: #4a8ad9;
+  color: var(--lightPrimary);
 }
 
 .registerText {
   margin-top: 20px;
-  color: #464646;
+  color: var(--lightDarkText);
   font-size: 14px;
   text-align: center;
 }
@@ -395,7 +395,7 @@
 .registerLink {
   background: none;
   border: none;
-  color: #5E9BEB;
+  color: var(--lightPrimary);
   cursor: pointer;
   font-size: 14px;
   padding: 0;
@@ -404,7 +404,7 @@
 }
 
 .registerLink:hover {
-  color: #4A8AD9;
+  color: var(--lightPrimary);
 }
 
 /* --- RESPONSIVE FOR SMALLER SCREENS --- */

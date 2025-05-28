@@ -157,13 +157,13 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
             <img 
               src="https://cdn.pixabay.com/photo/2017/02/18/19/20/logo-2078018_640.png" 
               alt="logo" 
-              className={`w-8 h-8 md:w-10 md:h-10 rounded-full object-cover object-center cursor-pointer ease-in-out duration-300 ${open && "rotate-[360deg]"}`} 
+              className={`rounded-full object-cover object-center cursor-pointer transition-all duration-300 ${isMobile ? 'w-8 h-8' : 'w-12 h-12'}`}
             />
             {open && (
               <img 
                 src={logown} 
                 alt="Inhabit Realties Logo" 
-                className="w-40 h-10 object-contain cursor-pointer ease-in-out duration-300" 
+                className="w-40 h-10 object-contain cursor-pointer transition-all duration-300" 
               />
             )}
           </div>
@@ -172,43 +172,43 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
         {/* Scrollable menu items */}
         <div className="mt-24 h-[calc(100vh-8rem)] overflow-y-auto">
           <ul className="space-y-0.5 px-4">
-            {Menus.map((Menu, index) => (
-              <li 
-                key={index} 
+          {Menus.map((Menu, index) => (
+            <li 
+              key={index} 
                 className={`flex flex-col rounded-md py-3 px-4 cursor-pointer text-light-darkText transition-all ease-in-out duration-300 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-card"} hover:bg-light-secondary hover:text-light-primary`}
                 onClick={() => handleMenuClick(Menu)}
-              >
+            >
                 <div className="flex items-center justify-between gap-x-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">
-                      {Menu.icon}
-                    </span>
-                    <span className={`${!open && "hidden"} origin-left ease-in-out duration-300 text-sm md:text-base truncate`}>
-                      {Menu.title}
-                    </span>
-                  </div>
-                  {Menu.subMenu && (
-                    <span className={`ml-auto cursor-pointer text-sm ${subMenus[Menu.key] ? "rotate-360" : ""} transition-transform ease-in-out duration-300 ${!open ? "hidden" : ""}`}>
-                      {subMenus[Menu.key] ? <FaChevronDown /> : <FaChevronRight />}
-                    </span>
-                  )}
+                <div className="flex items-center gap-2">
+                  <span className={isMobile ? 'text-lg' : 'text-2xl'}>
+                    {Menu.icon}
+                  </span>
+                  <span className={`${!open && "hidden"} origin-left ease-in-out duration-300 text-sm md:text-base truncate`}>
+                    {Menu.title}
+                  </span>
                 </div>
-                {/* Sidebar submenus */}
-                {Menu.subMenu && subMenus[Menu.key] && (
+                {Menu.subMenu && (
+                  <span className={`ml-auto cursor-pointer text-sm ${subMenus[Menu.key] ? "rotate-360" : ""} transition-transform ease-in-out duration-300 ${!open ? "hidden" : ""}`}>
+                    {subMenus[Menu.key] ? <FaChevronDown /> : <FaChevronRight />}
+                  </span>
+                )}
+              </div>
+              {/* Sidebar submenus */}
+              {Menu.subMenu && subMenus[Menu.key] && (
                   <ul className="pl-3 pt-4 text-light-darkText">
-                    {Menu.subMenu.map((subMenu, subIndex) => (
+                  {Menu.subMenu.map((subMenu, subIndex) => (
                       <li key={subIndex} className="text-sm flex items-center gap-x-2 py-3 px-2 rounded-lg hover:bg-light-secondary hover:text-light-primary" onClick={e => { e.stopPropagation(); handleSubMenuClick(Menu, subMenu); }}>
                         <span className="text-light-primary">
-                          <FaChevronRight className="text-xs" />
-                        </span>
-                        <span className="truncate">{subMenu}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+                        <FaChevronRight className="text-xs" />
+                      </span>
+                      <span className="truncate">{subMenu}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
         </div>
       </div>
     </>

@@ -13,7 +13,7 @@ export const theme = extendTheme({
   breakpoints,
   colors: {
     brand: {
-      primary: LightThemeColors.brandPrimary,
+      primary: 'var(--chakra-colors-light-darkText)',
       secondary: LightThemeColors.brandSecondary,
       tertiary: LightThemeColors.brandTurnary,
     },

@@ -59,10 +59,10 @@ const iconVariants = {
 };
 
 const Features = () => {
-  const bgColor = useColorModeValue("var(--lightBackground)", "gray.800");
-  const cardBg = useColorModeValue("var(--lightCardBackground)", "gray.700");
-  const textColor = useColorModeValue("var(--lightDarkText)", "white");
-  const primaryColor = useColorModeValue("var(--lightPrimary)", "blue.400");
+  const bgColor = useColorModeValue("light.background", "light.background");
+  const cardBg = useColorModeValue("light.cardBackground", "light.cardBackground");
+  const textColor = useColorModeValue("light.darkText", "light.darkText");
+  const primaryColor = useColorModeValue("brand.primary", "brand.primary");
 
   return (
     <Box 

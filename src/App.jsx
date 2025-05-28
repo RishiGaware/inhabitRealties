@@ -14,7 +14,7 @@ import Features from './pages/common/Features'
 import AboutUs from './pages/common/AboutUs'
 import Contact from './pages/common/Contact'
 import Dashboard from './pages/common/dashboard/Dashboard';
-import UserManagement from './pages/admin/UserManagement';
+import UserManagement from './pages/admin/userManagement/UserManagement';
 import RoleManagement from './pages/admin/RoleManagement';
 import Reports from './pages/admin/Reports';
 import AddLead from './pages/lead/AddLead';
