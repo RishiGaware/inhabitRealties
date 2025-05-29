@@ -1,6 +1,5 @@
 import React from "react";
 import DashboardLayout from "../../../components/navigation/DashboardLayout";
-import AppSidebar from "../../../components/nevigation/App";
 
 const Dashboard = () => (
   <>

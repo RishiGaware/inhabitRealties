@@ -132,21 +132,27 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
       {/* Overlay for mobile */}
       {isMobile && open && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-20"
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-20"
           onClick={() => setOpen(false)}
         />
       )}
       <div 
-        className={`${open ? "w-72" : "w-20"} ${isMobile ? "fixed" : "fixed"} bg-light-card shadow-lg h-screen pt-8 z-30 transition-all duration-300 ease-in-out ${
-          isMobile && !open ? "-translate-x-full" : "translate-x-0"
-        }`}
+        className={`${open ? (isMobile ? "w-[280px] sm:w-[320px] md:w-[360px]" : "w-72") : "w-20"} 
+          ${isMobile ? "fixed" : "fixed"} 
+          bg-white 
+          border-r border-gray-200
+          shadow-[2px_0_8px_rgba(0,0,0,0.1)]
+          h-screen pt-8 z-30 
+          transition-all duration-300 ease-in-out 
+          ${isMobile ? "rounded-tr-[25px] rounded-br-[25px]" : ""}
+          ${isMobile && !open ? "-translate-x-full" : "translate-x-0"}`}
       >
         {/* Fixed header section */}
-        <div className="px-4 fixed top-0 left-0 w-full bg-light-background pt-8 pb-4 z-10">
+        <div className={`px-4 fixed top-0 left-0 w-full bg-white pt-8 pb-4 z-10 ${isMobile ? "rounded-tr-[25px]" : ""}`}>
           {/* Toggle button */}
           {!isMobile && (
             <div 
-              className={`absolute cursor-pointer -right-4 top-9 w-8 h-8 p-0.5 bg-light-card border-light-card border-2 rounded-full text-xl flex items-center justify-center ${!open && "rotate-180"} transition-all ease-in-out duration-300`}
+              className={`absolute cursor-pointer -right-4 top-9 w-8 h-8 p-0.5 bg-white border-white border-2 rounded-full text-xl flex items-center justify-center ${!open && "rotate-180"} transition-all ease-in-out duration-300`}
               onClick={() => setOpen(!open)}
             >
               {open ? <TbLayoutSidebarLeftExpand /> : <TbLayoutSidebarLeftCollapse />}
@@ -175,8 +181,11 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
           {Menus.map((Menu, index) => (
             <li 
               key={index} 
-                className={`flex flex-col rounded-md py-3 px-4 cursor-pointer text-light-darkText transition-all ease-in-out duration-300 ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-card"} hover:bg-light-secondary hover:text-light-primary`}
-                onClick={() => handleMenuClick(Menu)}
+              className={`flex flex-col rounded-md py-3 px-4 cursor-pointer text-light-darkText transition-all ease-in-out duration-300 
+                ${Menu.gap ? "mt-9" : "mt-2"} 
+                ${index === 0 && "bg-gray-50"} 
+                hover:bg-gray-50 hover:text-light-primary`}
+              onClick={() => handleMenuClick(Menu)}
             >
                 <div className="flex items-center justify-between gap-x-4">
                 <div className="flex items-center gap-2">
