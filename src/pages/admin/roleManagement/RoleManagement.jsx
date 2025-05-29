@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon, SearchIcon, AddIcon } from '@chakra-ui/icons';
 import CommonTable from '../../../components/common/Table/CommonTable';
-import CommonPagination from '../../../components/common/pagination/CommonPagination';
+import CommonPagination from '../../../components/common/pagination/CommonPagination.jsx';
 import TableContainer from '../../../components/common/Table/TableContainer';
 import FloatingInput from '../../../components/common/FloatingInput';
 import CommonButton from '../../../components/common/Button/CommonButton';
