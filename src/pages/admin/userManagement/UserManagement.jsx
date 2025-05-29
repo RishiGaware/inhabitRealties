@@ -1,13 +1,6 @@
 import { useState } from 'react';
 import {
   Box,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  Button,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -27,11 +20,13 @@ import {
   IconButton,
   InputGroup,
   InputLeftElement,
-  Spinner,
-  Flex,
-  FormErrorMessage,
 } from '@chakra-ui/react';
-import { EditIcon, DeleteIcon, SearchIcon } from '@chakra-ui/icons';
+import { EditIcon, DeleteIcon, SearchIcon, AddIcon } from '@chakra-ui/icons';
+import CommonTable from '../../../components/common/Table/CommonTable';
+import CommonPagination from '../../../components/common/Pagination/CommonPagination';
+import TableContainer from '../../../components/common/Table/TableContainer';
+import FloatingInput from '../../../components/common/FloatingInput';
+import CommonButton from '../../../components/common/Button/CommonButton';
 
 // Dummy data based on the schema
 const dummyUsers = [
@@ -199,10 +194,9 @@ const UserManagement = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const [formErrors, setFormErrors] = useState({});
   const toast = useToast();
-
-  const itemsPerPage = 5;
 
   // Modal controls
   const { isOpen: isFormOpen, onOpen: onFormOpen, onClose: onFormClose } = useDisclosure();
@@ -222,10 +216,66 @@ const UserManagement = () => {
   });
 
   // Pagination
-  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers.length / pageSize);
   const paginatedUsers = filteredUsers.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  const handlePageSizeChange = (newSize) => {
+    setPageSize(newSize);
+    setCurrentPage(1); // Reset to first page when changing page size
+  };
+
+  // Table columns configuration
+  const columns = [
+    { key: 'email', label: 'Email' },
+    { 
+      key: 'name', 
+      label: 'Name',
+      render: (_, row) => `${row.firstName} ${row.lastName}`
+    },
+    { key: 'phoneNumber', label: 'Phone' },
+    { key: 'role', label: 'Role' },
+    { 
+      key: 'published', 
+      label: 'Status',
+      render: (value) => (
+        <Text
+          color={value ? 'light.success' : 'light.danger'}
+          fontWeight="medium"
+          fontSize="sm"
+        >
+          {value ? 'Active' : 'Inactive'}
+        </Text>
+      )
+    },
+  ];
+
+  // Row actions
+  const renderRowActions = (user) => (
+    <HStack spacing={2}>
+      <IconButton
+        aria-label="Edit user"
+        icon={<EditIcon />}
+        size="xs"
+        colorScheme="brand"
+        variant="outline"
+        onClick={() => handleEdit(user)}
+      />
+      <IconButton
+        aria-label="Delete user"
+        icon={<DeleteIcon />}
+        size="xs"
+        colorScheme="red"
+        variant="outline"
+        onClick={() => handleDelete(user)}
+      />
+    </HStack>
   );
 
   const validateForm = (formData) => {
@@ -334,14 +384,20 @@ const UserManagement = () => {
     setSelectedUser(null);
   };
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSelectedUser(prevUser => ({ ...prevUser, [name]: value }));
+    setFormErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
+  };
+
   return (
     <Box p={6}>
       <HStack justify="space-between" mb={6}>
-        <Text fontSize="2xl" fontWeight="bold" >
+        <Text variant="pageTitle">
           User Management
         </Text>
-        <Button
-          className="bg-brand-primary text-darkText font-bold rounded-lg px-6 py-2 shadow hover:bg-brand-secondary hover:shadow-lg focus:ring-2 focus:ring-brand-primary focus:outline-none transition-colors"
+        <CommonButton
+          leftIcon={<AddIcon />}
           onClick={() => {
             setSelectedUser(null);
             setIsEditing(false);
@@ -350,7 +406,7 @@ const UserManagement = () => {
           }}
         >
           Add New User
-        </Button>
+        </CommonButton>
       </HStack>
 
       {/* Search and Filter */}
@@ -359,13 +415,17 @@ const UserManagement = () => {
           <InputLeftElement pointerEvents="none">
             <SearchIcon color="gray.400" />
           </InputLeftElement>
-          <Input
-            placeholder="Search users..."
+          <FloatingInput
+            type="text"
+            id="search"
+            name="search"
+            label="Search users..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </InputGroup>
         <Select
+          size="sm"
           placeholder="Filter by role"
           value={roleFilter}
           onChange={(e) => setRoleFilter(e.target.value)}
@@ -378,170 +438,94 @@ const UserManagement = () => {
         </Select>
       </HStack>
 
-      {/* Users Table */}
-      <Box
-        overflowX="auto"
-        bg="light.cardBackground"
-        borderRadius="lg"
-        boxShadow="md"
-        borderWidth="1px"
-        borderColor="gray.200"
-        p={0}
-        sx={{
-          'table': { minWidth: '700px' },
-        }}
-      >
-        {isLoading && (
-          <Flex
-            position="absolute"
-            top="0"
-            left="0"
-            right="0"
-            bottom="0"
-            bg="rgba(255, 255, 255, 0.7)"
-            justify="center"
-            align="center"
-            zIndex="1"
-          >
-            <Spinner size="xl" color="brand.primary" />
-          </Flex>
-        )}
-        <Table variant="simple" size="md">
-          <Thead bg="brand.primary">
-            <Tr>
-              <Th color="white" fontWeight="bold" py={3} px={4} borderTopLeftRadius="lg">Email</Th>
-              <Th color="white" fontWeight="bold" py={3} px={4}>Name</Th>
-              <Th color="white" fontWeight="bold" py={3} px={4}>Phone</Th>
-              <Th color="white" fontWeight="bold" py={3} px={4}>Role</Th>
-              <Th color="white" fontWeight="bold" py={3} px={4}>Status</Th>
-              <Th color="white" fontWeight="bold" py={3} px={4} borderTopRightRadius="lg">Actions</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {paginatedUsers.map((user, idx) => (
-              <Tr
-                key={user._id + idx}
-                bg={idx % 2 === 0 ? 'gray.100' : 'white'}
-                _hover={{ bg: 'blue.50' }}
-                transition="background 0.2s"
-              >
-                <Td py={3} px={4} color="light.darkText">{user.email}</Td>
-                <Td py={3} px={4} color="light.darkText">{`${user.firstName} ${user.lastName}`}</Td>
-                <Td py={3} px={4} color="light.darkText">{user.phoneNumber}</Td>
-                <Td py={3} px={4} color="light.darkText">{user.role}</Td>
-                <Td py={3} px={4}>
-                  <Text
-                    color={user.published ? 'light.success' : 'light.danger'}
-                    fontWeight="medium"
-                  >
-                    {user.published ? 'Active' : 'Inactive'}
-                  </Text>
-                </Td>
-                <Td py={3} px={4}>
-                  <HStack spacing={2}>
-                    <IconButton
-                      aria-label="Edit user"
-                      icon={<EditIcon />}
-                      size="sm"
-                      colorScheme="brand"
-                      variant="outline"
-                      className="text-light-darkText"
-                      onClick={() => handleEdit(user)}
-                    />
-                    <IconButton
-                      aria-label="Delete user"
-                      icon={<DeleteIcon />}
-                      size="sm"
-                      colorScheme="red"
-                      variant="outline"
-                      className="text-light-darkText"
-                      onClick={() => handleDelete(user)}
-                    />
-                  </HStack>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Box>
-
-      {/* Pagination */}
-      <HStack justify="center" mt={6} spacing={2}>
-        <Button
-          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-          isDisabled={currentPage === 1}
-          variant="outline"
-        >
-          Previous
-        </Button>
-        <Text>
-          Page {currentPage} of {totalPages}
-        </Text>
-        <Button
-          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-          isDisabled={currentPage === totalPages}
-          variant="outline"
-        >
-          Next
-        </Button>
-      </HStack>
+      <TableContainer>
+        <CommonTable
+          columns={columns}
+          data={paginatedUsers}
+          isLoading={isLoading}
+          rowActions={renderRowActions}
+          emptyStateMessage="No users found"
+        />
+        <CommonPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          pageSize={pageSize}
+          onPageSizeChange={handlePageSizeChange}
+        />
+      </TableContainer>
 
       {/* Add/Edit User Form Modal */}
       <Modal isOpen={isFormOpen} onClose={onFormClose} size="xl">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader color="light.darkText">
-            {isEditing ? 'Edit User' : 'Add New User'}
+          <ModalHeader>
+            <Text variant="sectionTitle">
+              {isEditing ? 'Edit User' : 'Add New User'}
+            </Text>
           </ModalHeader>
           <ModalCloseButton />
           <form onSubmit={handleFormSubmit}>
             <ModalBody>
               <VStack spacing={4}>
                 <FormControl isRequired isInvalid={formErrors.email}>
-                  <FormLabel>Email</FormLabel>
-                  <Input
-                    name="email"
-                    defaultValue={selectedUser?.email}
+                  <FloatingInput
                     type="email"
+                    id="email"
+                    name="email"
+                    label="Email"
+                    value={selectedUser?.email || ''}
+                    onChange={handleInputChange}
+                    error={formErrors.email}
                   />
-                  <FormErrorMessage>{formErrors.email}</FormErrorMessage>
                 </FormControl>
                 <FormControl isRequired isInvalid={formErrors.firstName}>
-                  <FormLabel>First Name</FormLabel>
-                  <Input
+                  <FloatingInput
+                    type="text"
+                    id="firstName"
                     name="firstName"
-                    defaultValue={selectedUser?.firstName}
+                    label="First Name"
+                    value={selectedUser?.firstName || ''}
+                    onChange={handleInputChange}
+                    error={formErrors.firstName}
                   />
-                  <FormErrorMessage>{formErrors.firstName}</FormErrorMessage>
                 </FormControl>
                 <FormControl isRequired isInvalid={formErrors.lastName}>
-                  <FormLabel>Last Name</FormLabel>
-                  <Input
+                  <FloatingInput
+                    type="text"
+                    id="lastName"
                     name="lastName"
-                    defaultValue={selectedUser?.lastName}
+                    label="Last Name"
+                    value={selectedUser?.lastName || ''}
+                    onChange={handleInputChange}
+                    error={formErrors.lastName}
                   />
-                  <FormErrorMessage>{formErrors.lastName}</FormErrorMessage>
                 </FormControl>
                 <FormControl isRequired isInvalid={formErrors.phoneNumber}>
-                  <FormLabel>Phone Number</FormLabel>
-                  <Input
+                  <FloatingInput
+                    type="text"
+                    id="phoneNumber"
                     name="phoneNumber"
-                    defaultValue={selectedUser?.phoneNumber}
+                    label="Phone Number"
+                    value={selectedUser?.phoneNumber || ''}
+                    onChange={handleInputChange}
+                    error={formErrors.phoneNumber}
                   />
-                  <FormErrorMessage>{formErrors.phoneNumber}</FormErrorMessage>
                 </FormControl>
                 {!isEditing && (
                   <FormControl isRequired isInvalid={formErrors.password}>
-                    <FormLabel>Password</FormLabel>
-                    <Input
-                      name="password"
+                    <FloatingInput
                       type="password"
+                      id="password"
+                      name="password"
+                      label="Password"
+                      onChange={handleInputChange}
+                      error={formErrors.password}
+                      showPassword={false}
                     />
-                    <FormErrorMessage>{formErrors.password}</FormErrorMessage>
                   </FormControl>
                 )}
                 <FormControl isRequired>
-                  <FormLabel>Role</FormLabel>
                   <Select name="role" defaultValue={selectedUser?.role}>
                     <option value="ADMIN">Admin</option>
                     <option value="SALES">Sales</option>
@@ -550,7 +534,6 @@ const UserManagement = () => {
                   </Select>
                 </FormControl>
                 <FormControl isRequired>
-                  <FormLabel>Status</FormLabel>
                   <Select
                     name="published"
                     defaultValue={selectedUser?.published?.toString()}
@@ -562,19 +545,19 @@ const UserManagement = () => {
               </VStack>
             </ModalBody>
             <ModalFooter>
-              <Button
-                className="bg-gray-200 text-darkText font-bold rounded-lg px-6 py-2 shadow hover:bg-gray-300 hover:shadow-lg focus:ring-2 focus:ring-gray-400 focus:outline-none transition-colors mr-3"
+              <CommonButton
+                variant="secondary"
+                mr={3}
                 onClick={onFormClose}
               >
                 Cancel
-              </Button>
-              <Button
+              </CommonButton>
+              <CommonButton
                 type="submit"
-                className="bg-brand-primary text-light-darkText font-bold rounded-lg px-6 py-2 shadow hover:bg-brand-secondary hover:shadow-lg focus:ring-2 focus:ring-brand-primary focus:outline-none transition-colors"
                 isLoading={isLoading}
               >
                 {isEditing ? 'Update' : 'Create'}
-              </Button>
+              </CommonButton>
             </ModalFooter>
           </form>
         </ModalContent>
@@ -584,7 +567,9 @@ const UserManagement = () => {
       <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader color="light.darkText">Delete User</ModalHeader>
+          <ModalHeader>
+            <Text variant="sectionTitle">Delete User</Text>
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Text>
@@ -596,19 +581,20 @@ const UserManagement = () => {
             </Text>
           </ModalBody>
           <ModalFooter>
-            <Button
-              className="bg-gray-200 text-darkText font-bold rounded-lg px-6 py-2 shadow hover:bg-gray-300 hover:shadow-lg focus:ring-2 focus:ring-gray-400 focus:outline-none transition-colors mr-3"
+            <CommonButton
+              variant="secondary"
+              mr={3}
               onClick={onDeleteClose}
             >
               Cancel
-            </Button>
-            <Button
-              className="bg-red-600 text-light-darkText font-bold rounded-lg px-6 py-2 shadow hover:bg-red-700 hover:shadow-lg focus:ring-2 focus:ring-red-500 focus:outline-none transition-colors"
+            </CommonButton>
+            <CommonButton
+              variant="danger"
               onClick={handleDeleteConfirm}
               isLoading={isLoading}
             >
               Delete
-            </Button>
+            </CommonButton>
           </ModalFooter>
         </ModalContent>
       </Modal>

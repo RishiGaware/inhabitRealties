@@ -1,6 +1,9 @@
 import './App.css'
 import { Routes, Route } from 'react-router-dom';
-import { Container, Box } from '@chakra-ui/react'
+import { Container, Box, ChakraProvider } from '@chakra-ui/react'
+import { BrowserRouter as Router } from 'react-router-dom';
+import theme from './theme';
+// import AppRoutes from './routes';
 
 import Header from './components/Header/Header';
 import Home from './routes/Home';
@@ -15,7 +18,7 @@ import AboutUs from './pages/common/AboutUs'
 import Contact from './pages/common/Contact'
 import Dashboard from './pages/common/dashboard/Dashboard';
 import UserManagement from './pages/admin/userManagement/UserManagement';
-import RoleManagement from './pages/admin/RoleManagement';
+import RoleManagement from './pages/admin/roleManagement/RoleManagement';
 import Reports from './pages/admin/Reports';
 import AddLead from './pages/lead/AddLead';
 import ViewLeads from './pages/lead/ViewLeads';
@@ -66,54 +69,56 @@ const AuthLayout = ({ children }) => {
 
 const App = () => {
   return (
-    <HouseProvider>
-      <Routes>
-        {/* Auth Routes */}
-        <Route path='/login' element={
-          <AuthLayout>
-            <Login />
-          </AuthLayout>
-        } />
-        <Route path='/register' element={
-          <AuthLayout>
-            <Register />
-          </AuthLayout>
-        } />
+    <ChakraProvider theme={theme}>
+        <HouseProvider>
+          <Routes>
+            {/* Auth Routes */}
+            <Route path='/login' element={
+              <AuthLayout>
+                <Login />
+              </AuthLayout>
+            } />
+            <Route path='/register' element={
+              <AuthLayout>
+                <Register />
+              </AuthLayout>
+            } />
 
-        {/* Main Routes */}
-        <Route path='/' element={<MainLayout><Home /></MainLayout>} />
-        <Route path='/features' element={<MainLayout><Features /></MainLayout>} />
-        <Route path='/about' element={<MainLayout><AboutUs /></MainLayout>} />
-        <Route path='/contact' element={<MainLayout><Contact /></MainLayout>} />
-        <Route path='property-details' element={<MainLayout><PropertyDetails /></MainLayout>} />
-        {/* <Route path='/dashboard' element={<DashboardLayout><Dashboard /></DashboardLayout>} /> */}
-        <Route path='/admin/user-management' element={<DashboardLayout><UserManagement /></DashboardLayout>} />
-        <Route path='/admin/role-management' element={<DashboardLayout><RoleManagement /></DashboardLayout>} />
-        <Route path='/admin/reports' element={<DashboardLayout><Reports /></DashboardLayout>} />
-        <Route path='/lead-management/add-lead' element={<DashboardLayout><AddLead /></DashboardLayout>} />
-        <Route path='/lead-management/view-leads' element={<DashboardLayout><ViewLeads /></DashboardLayout>} />
-        <Route path='/lead-management/lead-qualification' element={<DashboardLayout><LeadQualification /></DashboardLayout>} />
-        <Route path='/customer-management/customer-profiles' element={<DashboardLayout><CustomerProfiles /></DashboardLayout>} />
-        <Route path='/customer-management/documents' element={<DashboardLayout><CustomerDocuments /></DashboardLayout>} />
-        <Route path='/customer-management/site-visits' element={<DashboardLayout><SiteVisits /></DashboardLayout>} />
-        <Route path='/bookings/inventory' element={<DashboardLayout><Inventory /></DashboardLayout>} />
-        <Route path='/bookings/booked-units' element={<DashboardLayout><BookedUnits /></DashboardLayout>} />
-        <Route path='/bookings/payment-status' element={<DashboardLayout><PaymentStatus /></DashboardLayout>} />
-        <Route path='/payments/installments' element={<DashboardLayout><Installments /></DashboardLayout>} />
-        <Route path='/payments/payment-history' element={<DashboardLayout><PaymentHistory /></DashboardLayout>} />
-        <Route path='/payments/due-payments' element={<DashboardLayout><DuePayments /></DashboardLayout>} />
-        <Route path='/post-sale/referrals' element={<DashboardLayout><Referrals /></DashboardLayout>} />
-        <Route path='/post-sale/rewards' element={<DashboardLayout><Rewards /></DashboardLayout>} />
-        <Route path='/post-sale/points' element={<DashboardLayout><Points /></DashboardLayout>} />
-        <Route path='/client-portal/my-bookings' element={<DashboardLayout><MyBookings /></DashboardLayout>} />
-        <Route path='/client-portal/documents' element={<DashboardLayout><ClientDocuments /></DashboardLayout>} />
-        <Route path='/client-portal/payments' element={<DashboardLayout><ClientPayments /></DashboardLayout>} />
-        <Route path='/client-portal/referrals' element={<DashboardLayout><ClientReferrals /></DashboardLayout>} />
-        <Route path='/property/master' element={<DashboardLayout><PropertyMaster /></DashboardLayout>} />
-        <Route path='/property/types' element={<DashboardLayout><PropertyTypes /></DashboardLayout>} />
-        <Route path="*" element={<DashboardLayout><main style={{ padding: "1rem" }}><p>There's nothing here!</p></main></DashboardLayout>} />
-      </Routes>
-    </HouseProvider>
+            {/* Main Routes */}
+            <Route path='/' element={<MainLayout><Home /></MainLayout>} />
+            <Route path='/features' element={<MainLayout><Features /></MainLayout>} />
+            <Route path='/about' element={<MainLayout><AboutUs /></MainLayout>} />
+            <Route path='/contact' element={<MainLayout><Contact /></MainLayout>} />
+            <Route path='property-details' element={<MainLayout><PropertyDetails /></MainLayout>} />
+            {/* <Route path='/dashboard' element={<DashboardLayout><Dashboard /></DashboardLayout>} /> */}
+            <Route path='/admin/user-management' element={<DashboardLayout><UserManagement /></DashboardLayout>} />
+            <Route path='/admin/role-management' element={<DashboardLayout><RoleManagement /></DashboardLayout>} />
+            <Route path='/admin/reports' element={<DashboardLayout><Reports /></DashboardLayout>} />
+            <Route path='/lead-management/add-lead' element={<DashboardLayout><AddLead /></DashboardLayout>} />
+            <Route path='/lead-management/view-leads' element={<DashboardLayout><ViewLeads /></DashboardLayout>} />
+            <Route path='/lead-management/lead-qualification' element={<DashboardLayout><LeadQualification /></DashboardLayout>} />
+            <Route path='/customer-management/customer-profiles' element={<DashboardLayout><CustomerProfiles /></DashboardLayout>} />
+            <Route path='/customer-management/documents' element={<DashboardLayout><CustomerDocuments /></DashboardLayout>} />
+            <Route path='/customer-management/site-visits' element={<DashboardLayout><SiteVisits /></DashboardLayout>} />
+            <Route path='/bookings/inventory' element={<DashboardLayout><Inventory /></DashboardLayout>} />
+            <Route path='/bookings/booked-units' element={<DashboardLayout><BookedUnits /></DashboardLayout>} />
+            <Route path='/bookings/payment-status' element={<DashboardLayout><PaymentStatus /></DashboardLayout>} />
+            <Route path='/payments/installments' element={<DashboardLayout><Installments /></DashboardLayout>} />
+            <Route path='/payments/payment-history' element={<DashboardLayout><PaymentHistory /></DashboardLayout>} />
+            <Route path='/payments/due-payments' element={<DashboardLayout><DuePayments /></DashboardLayout>} />
+            <Route path='/post-sale/referrals' element={<DashboardLayout><Referrals /></DashboardLayout>} />
+            <Route path='/post-sale/rewards' element={<DashboardLayout><Rewards /></DashboardLayout>} />
+            <Route path='/post-sale/points' element={<DashboardLayout><Points /></DashboardLayout>} />
+            <Route path='/client-portal/my-bookings' element={<DashboardLayout><MyBookings /></DashboardLayout>} />
+            <Route path='/client-portal/documents' element={<DashboardLayout><ClientDocuments /></DashboardLayout>} />
+            <Route path='/client-portal/payments' element={<DashboardLayout><ClientPayments /></DashboardLayout>} />
+            <Route path='/client-portal/referrals' element={<DashboardLayout><ClientReferrals /></DashboardLayout>} />
+            <Route path='/property/master' element={<DashboardLayout><PropertyMaster /></DashboardLayout>} />
+            <Route path='/property/types' element={<DashboardLayout><PropertyTypes /></DashboardLayout>} />
+            <Route path="*" element={<DashboardLayout><main style={{ padding: "1rem" }}><p>There's nothing here!</p></main></DashboardLayout>} />
+          </Routes>
+        </HouseProvider>
+    </ChakraProvider>
   )
 }
 
