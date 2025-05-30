@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BiChat, BiUser, BiUserPlus } from "react-icons/bi";
 import { FaChevronDown, FaChevronRight, FaCog, FaUsers, FaChartLine, FaFileAlt, FaCalendarAlt, FaMoneyBillWave, FaHandshake } from "react-icons/fa";
 import { FiTable } from "react-icons/fi";
@@ -9,9 +9,14 @@ import { TiCalendar } from "react-icons/ti";
 import logown from '../../assets/images/logown.png'
 import PropertyMaster from '../../pages/property/PropertyMaster';
 import PropertyTypes from '../../pages/property/PropertyTypes';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [selectedMenu, setSelectedMenu] = useState('dashboard');
+  const [selectedSubMenu, setSelectedSubMenu] = useState('');
+
   const Menus = [
     // Admin Module
     { title: "Dashboard", icon: <MdSpaceDashboard />, key: "dashboard" },
@@ -110,21 +115,65 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
     },
   ];
 
-  const navigate = useNavigate();
-
   // Helper to convert to kebab-case
   const toKebab = str => str && str.toLowerCase().replace(/ /g, '-');
 
+  // Helper to find parent menu for a submenu
+  const findParentMenu = (subMenuPath) => {
+    return Menus.find(menu => 
+      menu.subMenu && menu.subMenu.some(sub => 
+        toKebab(sub) === subMenuPath
+      )
+    );
+  };
+
+  // Update selected states based on current route
+  useEffect(() => {
+    const path = location.pathname.split('/');
+    if (path[1]) {
+      // Find if this is a submenu path
+      if (path[2]) {
+        const parentMenu = findParentMenu(path[2]);
+        if (parentMenu) {
+          setSelectedMenu(toKebab(parentMenu.key));
+          setSelectedSubMenu(path[2]);
+          // Ensure the parent menu is expanded
+          if (!subMenus[parentMenu.key]) {
+            toggleSubMenu(parentMenu.key);
+          }
+        }
+      } else {
+        setSelectedMenu(path[1]);
+        setSelectedSubMenu('');
+      }
+    } else {
+      setSelectedMenu('dashboard');
+      setSelectedSubMenu('');
+    }
+  }, [location, toggleSubMenu, subMenus]);
+
   const handleMenuClick = (menu) => {
+    const menuKey = toKebab(menu.key);
     if (!menu.subMenu) {
-      navigate(`/${toKebab(menu.key)}`);
+      setSelectedMenu(menuKey);
+      setSelectedSubMenu('');
+      navigate(`/${menuKey}`);
     } else {
       toggleSubMenu(menu.key);
+      setSelectedMenu(menuKey);
     }
   };
 
   const handleSubMenuClick = (menu, subMenu) => {
-    navigate(`/${toKebab(menu.key)}/${toKebab(subMenu)}`);
+    const menuKey = toKebab(menu.key);
+    const subMenuKey = toKebab(subMenu);
+    setSelectedMenu(menuKey);
+    setSelectedSubMenu(subMenuKey);
+    // Ensure the parent menu stays expanded
+    if (!subMenus[menu.key]) {
+      toggleSubMenu(menu.key);
+    }
+    navigate(`/${menuKey}/${subMenuKey}`);
   };
 
   return (
@@ -132,7 +181,7 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
       {/* Overlay for mobile */}
       {isMobile && open && (
         <div 
-          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-20"
+          className="fixed inset-0 bg-black/30  z-20"
           onClick={() => setOpen(false)}
         />
       )}
@@ -178,46 +227,67 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
         {/* Scrollable menu items */}
         <div className="mt-24 h-[calc(100vh-8rem)] overflow-y-auto">
           <ul className="space-y-0.5 px-4">
-          {Menus.map((Menu, index) => (
-            <li 
-              key={index} 
-              className={`flex flex-col rounded-md py-3 px-4 cursor-pointer text-light-darkText transition-all ease-in-out duration-300 
-                ${Menu.gap ? "mt-9" : "mt-2"} 
-                ${index === 0 && "bg-gray-50"} 
-                hover:bg-gray-50 hover:text-light-primary`}
-              onClick={() => handleMenuClick(Menu)}
-            >
+            {Menus.map((Menu, index) => (
+              <li 
+                key={index} 
+                className={`flex flex-col rounded-md py-3 px-4 cursor-pointer
+                  transition-all duration-300 ease-in-out
+                  ${Menu.gap ? "mt-9" : "mt-2"}
+                  hover:bg-gray-50/50`}
+                onClick={() => handleMenuClick(Menu)}
+              >
                 <div className="flex items-center justify-between gap-x-4">
-                <div className="flex items-center gap-2">
-                  <span className={isMobile ? 'text-lg' : 'text-2xl'}>
-                    {Menu.icon}
-                  </span>
-                  <span className={`${!open && "hidden"} origin-left ease-in-out duration-300 text-sm md:text-base truncate`}>
-                    {Menu.title}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={`transition-colors duration-200 ${isMobile ? 'text-lg' : 'text-2xl'} 
+                      ${toKebab(Menu.key) === selectedMenu ? "text-light-primary" : "text-gray-600"}`}
+                    >
+                      {Menu.icon}
+                    </span>
+                    <span className={`${!open && "hidden"} origin-left duration-300 text-sm md:text-base truncate
+                      ${toKebab(Menu.key) === selectedMenu ? "text-light-primary font-medium" : "text-gray-600"}`}
+                    >
+                      {Menu.title}
+                    </span>
+                  </div>
+                  {Menu.subMenu && (
+                    <span className={`ml-auto text-sm transition-all duration-300
+                      ${subMenus[Menu.key] ? "rotate-360" : ""}
+                      ${!open && "hidden"}
+                      ${toKebab(Menu.key) === selectedMenu ? "text-light-primary" : "text-gray-600"}`}
+                    >
+                      {subMenus[Menu.key] ? <FaChevronDown /> : <FaChevronRight />}
+                    </span>
+                  )}
                 </div>
-                {Menu.subMenu && (
-                  <span className={`ml-auto cursor-pointer text-sm ${subMenus[Menu.key] ? "rotate-360" : ""} transition-transform ease-in-out duration-300 ${!open ? "hidden" : ""}`}>
-                    {subMenus[Menu.key] ? <FaChevronDown /> : <FaChevronRight />}
-                  </span>
+                {/* Submenu items */}
+                {Menu.subMenu && subMenus[Menu.key] && (
+                  <ul className="pl-3 pt-4">
+                    {Menu.subMenu.map((subMenu, subIndex) => (
+                      <li 
+                        key={subIndex} 
+                        className={`text-sm flex items-center gap-x-2 py-2 px-2 rounded-md
+                          transition-all duration-200 ease-in-out
+                          hover:bg-gray-50/50
+                          ${toKebab(subMenu) === selectedSubMenu ? "text-light-primary" : "text-gray-600"}`}
+                        onClick={e => { e.stopPropagation(); handleSubMenuClick(Menu, subMenu); }}
+                      >
+                        <span className={`transition-colors duration-200
+                          ${toKebab(subMenu) === selectedSubMenu ? "text-light-primary" : "text-gray-400"}`}
+                        >
+                          <FaChevronRight className="text-xs" />
+                        </span>
+                        <span className={`truncate
+                          ${toKebab(subMenu) === selectedSubMenu ? "font-medium" : ""}`}
+                        >
+                          {subMenu}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
-              </div>
-              {/* Sidebar submenus */}
-              {Menu.subMenu && subMenus[Menu.key] && (
-                  <ul className="pl-3 pt-4 text-light-darkText">
-                  {Menu.subMenu.map((subMenu, subIndex) => (
-                      <li key={subIndex} className="text-sm flex items-center gap-x-2 py-3 px-2 rounded-lg hover:bg-light-secondary hover:text-light-primary" onClick={e => { e.stopPropagation(); handleSubMenuClick(Menu, subMenu); }}>
-                        <span className="text-light-primary">
-                        <FaChevronRight className="text-xs" />
-                      </span>
-                      <span className="truncate">{subMenu}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </>
