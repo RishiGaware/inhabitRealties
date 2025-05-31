@@ -39,7 +39,7 @@ import MyBookings from './pages/client/MyBookings';
 import ClientDocuments from './pages/client/Documents';
 import ClientPayments from './pages/client/Payments';
 import ClientReferrals from './pages/client/Referrals';
-import PropertyMaster from './pages/property/PropertyMaster/PropertyMaster';
+import PropertyMaster from './pages/property/propertyMaster/PropertyMaster';
 import PropertyTypes from './pages/property/propertyTypes/PropertyTypes';
 import DashboardLayout from './components/navigation/DashboardLayout';
 
