@@ -1,66 +1,70 @@
 .inputWrapper {
   position: relative;
+  margin-bottom: 1rem;
   width: 100%;
-  margin-bottom: 20px;
 }
 
 .input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #E5E7EB;
-  border-radius: 8px;
-  font-size: 14px;
-  background-color: #FFFFFF;
-  color: #464646;
-  transition: all 0.3s ease;
+  padding: 1rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  background-color: white;
 }
 
 .input:focus {
   outline: none;
-  border-color: #5E9BEB;
-  box-shadow: 0 0 0 2px rgba(94, 155, 235, 0.1);
-}
-
-.inputError {
-  border-color: #EB5463;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
 
 .floatingLabel {
   position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #FFFFFF;
-  padding: 0 5px;
-  color: #6B7280;
-  transition: all 0.3s ease;
+  left: 0.75rem;
+  top: 1rem;
+  font-size: 0.875rem;
+  color: #64748b;
   pointer-events: none;
+  transition: all 0.2s;
+  transform-origin: left top;
+  background-color: white;
+  padding: 0 0.25rem;
 }
 
-.input:focus + .floatingLabel,
-.input:not(:placeholder-shown) + .floatingLabel {
-  top: 0;
-  font-size: 12px;
-  color: #5E9BEB;
+.input:focus ~ .floatingLabel,
+.input:not(:placeholder-shown) ~ .floatingLabel {
+  transform: translateY(-1.4rem) scale(0.85);
+  color: #3b82f6;
+}
+
+.inputError {
+  border-color: #ef4444;
+}
+
+.inputError ~ .floatingLabel {
+  color: #ef4444;
 }
 
 .errorText {
-  color: #EB5463;
-  font-size: 12px;
-  margin-top: 4px;
-  display: block;
+  position: absolute;
+  left: 0;
+  bottom: -1.25rem;
+  font-size: 0.75rem;
+  color: #ef4444;
 }
 
 .eyeIcon {
   position: absolute;
-  right: 12px;
+  right: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #666;
+  color: #64748b;
 }
 
 .input:disabled {
-  background-color: #F9FAFB;
+  background-color: #f1f5f9;
   cursor: not-allowed;
 } 

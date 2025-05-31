@@ -39,8 +39,8 @@ import MyBookings from './pages/client/MyBookings';
 import ClientDocuments from './pages/client/Documents';
 import ClientPayments from './pages/client/Payments';
 import ClientReferrals from './pages/client/Referrals';
-import PropertyMaster from './pages/property/PropertyMaster';
-import PropertyTypes from './pages/property/PropertyTypes';
+import PropertyMaster from './pages/property/PropertyMaster/PropertyMaster';
+import PropertyTypes from './pages/property/propertyTypes/PropertyTypes';
 import DashboardLayout from './components/navigation/DashboardLayout';
 
 const MainLayout = ({ children }) => {
@@ -113,8 +113,8 @@ const App = () => {
             <Route path='/client-portal/documents' element={<DashboardLayout><ClientDocuments /></DashboardLayout>} />
             <Route path='/client-portal/payments' element={<DashboardLayout><ClientPayments /></DashboardLayout>} />
             <Route path='/client-portal/referrals' element={<DashboardLayout><ClientReferrals /></DashboardLayout>} />
-            <Route path='/property/master' element={<DashboardLayout><PropertyMaster /></DashboardLayout>} />
-            <Route path='/property/types' element={<DashboardLayout><PropertyTypes /></DashboardLayout>} />
+            <Route path='/property/property-master' element={<DashboardLayout><PropertyMaster /></DashboardLayout>} />
+            <Route path='/property/property-types' element={<DashboardLayout><PropertyTypes /></DashboardLayout>} />
             <Route path="*" element={<DashboardLayout><main style={{ padding: "1rem" }}><p>There's nothing here!</p></main></DashboardLayout>} />
           </Routes>
         </HouseProvider>

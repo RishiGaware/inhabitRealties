@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BiChat, BiUser, BiUserPlus } from "react-icons/bi";
-import { FaChevronDown, FaChevronRight, FaCog, FaUsers, FaChartLine, FaFileAlt, FaCalendarAlt, FaMoneyBillWave, FaHandshake } from "react-icons/fa";
+import { FaChevronDown, FaChevronRight, FaCog, FaUsers, FaChartLine, FaFileAlt, FaCalendarAlt, FaMoneyBillWave, FaHandshake, FaBuilding } from "react-icons/fa";
 import { FiTable } from "react-icons/fi";
 import { GoGraph } from "react-icons/go";
 import { MdOutlineHeadsetMic, MdSpaceDashboard, MdAssignment, MdInventory, MdPayment, MdPerson } from "react-icons/md";
@@ -8,8 +8,8 @@ import { TbLayoutSidebarLeftCollapse, TbLayoutSidebarLeftExpand } from "react-ic
 import { TiCalendar } from "react-icons/ti";
 import logown from '../../assets/images/logown.png'
 import sbicon from '../../assets/images/sb-icon.webp'
-import PropertyMaster from '../../pages/property/PropertyMaster';
-import PropertyTypes from '../../pages/property/PropertyTypes';
+import PropertyMaster from '../../pages/property/propertyMaster/PropertyMaster';
+import PropertyTypes from '../../pages/property/propertyTypes/PropertyTypes';
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
@@ -19,7 +19,6 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
   const [selectedSubMenu, setSelectedSubMenu] = useState('');
 
   const Menus = [
-    // Admin Module
     { title: "Dashboard", icon: <MdSpaceDashboard />, key: "dashboard" },
     { 
       title: "Admin", 
@@ -32,8 +31,15 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
       ],
       key: "admin"
     },
-    
-    // Executive Module
+    { 
+      title: "Property", 
+      icon: <FaBuilding />,
+      subMenu: [
+        "Property Master",
+        "Property Types"
+      ],
+      key: "property"
+    },
     { 
       title: "Lead Management", 
       icon: <BiUserPlus />,
@@ -102,18 +108,6 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
     
     // Settings
     { title: "Settings", icon: <FaCog />, gap: true, key: "settings" },
-
-    // Property
-    { 
-      title: "Property", 
-      icon: <MdOutlineHeadsetMic />,
-      gap: true,
-      subMenu: [
-        "Property Master",
-        "Property Types"
-      ],
-      key: "property"
-    },
   ];
 
   // Helper to convert to kebab-case
@@ -187,7 +181,7 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
         />
       )}
       <div 
-        className={`${open ? (isMobile ? "w-[280px] sm:w-[320px] md:w-[360px]" : "w-72") : "w-20"} 
+        className={`${open ? (isMobile ? "w-[280px] sm:w-[280px] md:w-[300px]" : "w-72") : "w-20"} 
           ${isMobile ? "fixed" : "fixed"} 
           bg-white 
           border-r border-gray-200
