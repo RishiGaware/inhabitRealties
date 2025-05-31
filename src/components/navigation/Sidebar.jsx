@@ -7,6 +7,7 @@ import { MdOutlineHeadsetMic, MdSpaceDashboard, MdAssignment, MdInventory, MdPay
 import { TbLayoutSidebarLeftCollapse, TbLayoutSidebarLeftExpand } from "react-icons/tb";
 import { TiCalendar } from "react-icons/ti";
 import logown from '../../assets/images/logown.png'
+import sbicon from '../../assets/images/sb-icon.webp'
 import PropertyMaster from '../../pages/property/PropertyMaster';
 import PropertyTypes from '../../pages/property/PropertyTypes';
 import { useNavigate, useLocation } from "react-router-dom";
@@ -210,15 +211,15 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
           {/* Logo and title */}
           <div className="flex gap-x-4 items-center h-10">
             <img 
-              src="https://cdn.pixabay.com/photo/2017/02/18/19/20/logo-2078018_640.png" 
+              src={sbicon} 
               alt="logo" 
-              className={`rounded-full object-cover object-center cursor-pointer transition-all duration-300 ${isMobile ? 'w-8 h-8' : 'w-12 h-12'}`}
+              className={`rounded-full object-cover object-center cursor-pointer transition-all duration-500 ${isMobile ? 'w-8 h-8' : 'w-12 h-12'} ${open ? 'rotate-0' : 'rotate-[360deg]'}`}
             />
             {open && (
               <img 
                 src={logown} 
                 alt="Inhabit Realties Logo" 
-                className="w-40 h-10 object-contain cursor-pointer transition-all duration-300" 
+                className={`w-40 h-10 object-contain cursor-pointer transition-transform duration-300 ${open ? 'rotate-0' : '-rotate-180'}`}
               />
             )}
           </div>

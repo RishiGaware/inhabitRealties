@@ -445,7 +445,7 @@ const UserManagement = () => {
           isLoading={isLoading}
           rowActions={renderRowActions}
           emptyStateMessage="No users found"
-        />
+                    />
         <CommonPagination
           currentPage={currentPage}
           totalPages={totalPages}
@@ -461,7 +461,7 @@ const UserManagement = () => {
         <ModalContent>
           <ModalHeader>
             <Text variant="sectionTitle">
-              {isEditing ? 'Edit User' : 'Add New User'}
+            {isEditing ? 'Edit User' : 'Add New User'}
             </Text>
           </ModalHeader>
           <ModalCloseButton />
