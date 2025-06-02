@@ -14,7 +14,7 @@ import {
 
 const CommonTable = ({
   columns,
-  data,
+  data = [],
   isLoading,
   rowActions,
   onRowClick,
@@ -22,6 +22,7 @@ const CommonTable = ({
 }) => {
   return (
     <Box
+      position="relative"
       overflowX="auto"
       bg="light.cardBackground"
       borderRadius="lg"
@@ -94,7 +95,7 @@ const CommonTable = ({
                 py={{ base: 2, md: 3 }}
                 px={{ base: 2, md: 4 }}
                 {...(index === 0 && { borderTopLeftRadius: 'lg' })}
-                {...(index === columns.length - 1 && { borderTopRightRadius: 'lg' })}
+                {...(index === columns.length - 1 && !rowActions && { borderTopRightRadius: 'lg' })}
               >
                 {column.label}
               </Th>
@@ -107,6 +108,7 @@ const CommonTable = ({
                 py={{ base: 2, md: 3 }}
                 px={{ base: 2, md: 4 }}
                 width={{ base: '60px', md: '100px' }}
+                borderTopRightRadius="lg"
               >
                 Actions
               </Th>
@@ -114,7 +116,7 @@ const CommonTable = ({
           </Tr>
         </Thead>
         <Tbody>
-          {data.length === 0 ? (
+          {!data || data.length === 0 ? (
             <Tr>
               <Td colSpan={columns.length + (rowActions ? 1 : 0)} textAlign="center" py={4}>
                 <Text color="gray.500" fontSize={{ base: 'xs', md: 'sm' }}>{emptyStateMessage}</Text>

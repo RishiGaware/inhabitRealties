@@ -94,12 +94,12 @@ const App = () => {
             <Route path='/admin/user-management' element={<DashboardLayout><UserManagement /></DashboardLayout>} />
             <Route path='/admin/role-management' element={<DashboardLayout><RoleManagement /></DashboardLayout>} />
             <Route path='/admin/reports' element={<DashboardLayout><Reports /></DashboardLayout>} />
-            <Route path='/lead-management/add-lead' element={<DashboardLayout><AddLead /></DashboardLayout>} />
-            <Route path='/lead-management/view-leads' element={<DashboardLayout><ViewLeads /></DashboardLayout>} />
-            <Route path='/lead-management/lead-qualification' element={<DashboardLayout><LeadQualification /></DashboardLayout>} />
-            <Route path='/customer-management/customer-profiles' element={<DashboardLayout><CustomerProfiles /></DashboardLayout>} />
-            <Route path='/customer-management/documents' element={<DashboardLayout><CustomerDocuments /></DashboardLayout>} />
-            <Route path='/customer-management/site-visits' element={<DashboardLayout><SiteVisits /></DashboardLayout>} />
+            <Route path='/leads/add-lead' element={<DashboardLayout><AddLead /></DashboardLayout>} />
+            <Route path='/leads/view-leads' element={<DashboardLayout><ViewLeads /></DashboardLayout>} />
+            <Route path='/leads/lead-qualification' element={<DashboardLayout><LeadQualification /></DashboardLayout>} />
+            <Route path='/customers/customer-profiles' element={<DashboardLayout><CustomerProfiles /></DashboardLayout>} />
+            <Route path='/customers/documents' element={<DashboardLayout><CustomerDocuments /></DashboardLayout>} />
+            <Route path='/customers/site-visits' element={<DashboardLayout><SiteVisits /></DashboardLayout>} />
             <Route path='/bookings/inventory' element={<DashboardLayout><Inventory /></DashboardLayout>} />
             <Route path='/bookings/booked-units' element={<DashboardLayout><BookedUnits /></DashboardLayout>} />
             <Route path='/bookings/payment-status' element={<DashboardLayout><PaymentStatus /></DashboardLayout>} />
