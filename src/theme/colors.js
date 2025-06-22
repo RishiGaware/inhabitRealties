@@ -7,25 +7,25 @@
 
 // Primary Brand Colors
 export const brandColors = {
-  primary: '#015958',      // Main brand color - used for buttons, headers, primary actions
-  secondary: '#1A1A1A',    // Secondary brand color - for dark text, labels
-  accent: '#00A896',       // Accent color - for highlights, links, CTAs
-  tertiary: '#6C026B',     // Tertiary brand color - for special elements
+  primary: '#6C026B',      // Dark Purple
+  secondary: '#1A1A1A',    // Dark Grey
+  accent: '#A300A3',       // Lighter Purple
+  tertiary: '#4A0149',     // Even Darker Purple
 };
 
 // Semantic Colors
 export const semanticColors = {
   success: {
-    50: '#f0fdf4',
-    100: '#dcfce7',
-    200: '#bbf7d0',
-    300: '#86efac',
-    400: '#4ade80',
-    500: '#22c55e',
-    600: '#8AC640',        // Primary success color
-    700: '#15803d',
-    800: '#166534',
-    900: '#14532d',
+    50: '#eef6ee',
+    100: '#d5e9d5',
+    200: '#bbdcbb',
+    300: '#a2d0a2',
+    400: '#88c388',
+    500: '#6eb66e',
+    600: '#4CAF50',        // A more standard, less fluorescent green
+    700: '#388E3C',
+    800: '#2E7D32',
+    900: '#1B5E20',
   },
   warning: {
     50: '#fffbeb',

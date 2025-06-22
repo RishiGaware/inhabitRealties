@@ -5,20 +5,18 @@ import {
   Heading,
   Text,
   Select,
-  SimpleGrid,
-  Card,
-  CardHeader,
-  CardBody,
-  HStack,
-  VStack,
+  Grid,
   Icon,
   Spinner,
   Center,
   Divider,
+  HStack,
+  VStack,
 } from "@chakra-ui/react";
-import { FiCalendar, FiTrendingUp, FiTrendingDown, FiDollarSign } from "react-icons/fi";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import { FiCalendar } from "react-icons/fi";
+import { FaArrowUp, FaArrowDown, FaDollarSign } from "react-icons/fa";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import StatCard from "../../../components/common/StatCard";
 
 // Placeholder for API call
 const fetchIncomeStatementData = async (period) => {
@@ -72,13 +70,17 @@ const IncomeStatement = () => {
   const totalRevenue = data ? Object.values(data.revenue).reduce((a, b) => a + b, 0) : 0;
   const totalExpenses = data ? Object.values(data.expenses).reduce((a, b) => a + b, 0) : 0;
   const netProfit = totalRevenue - totalExpenses;
+  
+  const stats = [
+    { title: 'Total Revenue', value: `₹${totalRevenue.toLocaleString()}`, icon: FaArrowUp, changeType: 'increase' },
+    { title: 'Total Expenses', value: `₹${totalExpenses.toLocaleString()}`, icon: FaArrowDown, changeType: 'decrease' },
+    { title: 'Net Profit', value: `₹${netProfit.toLocaleString()}`, icon: FaDollarSign, changeType: netProfit > 0 ? 'increase' : 'decrease' },
+  ];
 
-  const DataRow = ({ label, value, isTotal = false, isPositive = false }) => (
+  const DataRow = ({ label, value, isTotal = false }) => (
     <Flex justify="space-between" py={2}>
-      <Text fontWeight={isTotal ? "bold" : "normal"}>{label}</Text>
-      <Text fontWeight={isTotal ? "bold" : "normal"} color={isTotal ? (isPositive ? 'green.500' : 'red.500') : 'inherit'}>
-        ${value.toLocaleString()}
-      </Text>
+      <Text color="gray.600">{label}</Text>
+      <Text fontWeight={isTotal ? 'bold' : 'medium'}>{`₹${value.toLocaleString()}`}</Text>
     </Flex>
   );
 
@@ -94,70 +96,30 @@ const IncomeStatement = () => {
   }
 
   return (
-    <Box p={{ base: 4, md: 6 }}>
-        <Flex direction={{base: "column", md: "row"}} justify="space-between" align="center" mb={6}>
-            <VStack align={{base: 'center', md: 'start'}}>
-                <Heading as="h1" size="lg">Income Statement</Heading>
-                <Text color="gray.500">Review your company's financial performance.</Text>
-            </VStack>
-            <FormControl maxW="200px" mt={{base: 4, md: 0}}>
-                <HStack>
-                    <Icon as={FiCalendar} />
-                    <Select value={period} onChange={(e) => setPeriod(e.target.value)}>
-                        <option value="monthly">This Month</option>
-                        <option value="quarterly">This Quarter</option>
-                        <option value="yearly">This Year</option>
-                    </Select>
-                </HStack>
-            </FormControl>
+    <Box p={6}>
+        <Flex justify="space-between" align="center" mb={6}>
+            <Heading as="h1" size="lg">Income Statement</Heading>
+            <Select maxW="200px" value={period} onChange={(e) => setPeriod(e.target.value)}>
+                <option value="monthly">This Month</option>
+                <option value="quarterly">This Quarter</option>
+                <option value="yearly">This Year</option>
+            </Select>
       </Flex>
 
-      <SimpleGrid columns={{ base: 1, lg: 3 }} spacing={6} mb={6}>
-        <Card bg="green.50" variant="outline">
-            <CardBody>
-                <HStack>
-                    <Icon as={FiTrendingUp} w={8} h={8} color="green.500" />
-                    <Box>
-                        <Text>Total Revenue</Text>
-                        <Text fontSize="2xl" fontWeight="bold">${totalRevenue.toLocaleString()}</Text>
-                    </Box>
-                </HStack>
-            </CardBody>
-        </Card>
-        <Card bg="red.50" variant="outline">
-            <CardBody>
-                <HStack>
-                    <Icon as={FiTrendingDown} w={8} h={8} color="red.500" />
-                    <Box>
-                        <Text>Total Expenses</Text>
-                        <Text fontSize="2xl" fontWeight="bold">${totalExpenses.toLocaleString()}</Text>
-                    </Box>
-                </HStack>
-            </CardBody>
-        </Card>
-        <Card bg={netProfit > 0 ? 'blue.50' : 'orange.50'} variant="outline">
-            <CardBody>
-                <HStack>
-                    <Icon as={FiDollarSign} w={8} h={8} color={netProfit > 0 ? 'blue.500' : 'orange.500'}/>
-                    <Box>
-                        <Text>Net Profit</Text>
-                        <Text fontSize="2xl" fontWeight="bold" color={netProfit > 0 ? 'blue.600' : 'orange.600'}>${netProfit.toLocaleString()}</Text>
-                    </Box>
-                </HStack>
-            </CardBody>
-        </Card>
-      </SimpleGrid>
+      <Grid templateColumns={{ base: '1fr', lg: 'repeat(3, 1fr)' }} spacing={6} mb={8}>
+        {stats.map((stat, index) => <StatCard key={index} {...stat} change="" />)}
+      </Grid>
 
-      <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={6}>
-        <Card>
-          <CardHeader><Heading size="md">Financial Summary</Heading></CardHeader>
-          <CardBody>
+      <Grid templateColumns={{ base: '1fr', lg: '1fr 2fr' }} gap={8}>
+        <Box p={6} bg="white" borderRadius="lg" boxShadow="sm">
+            <Heading size="md" mb={4}>Financial Summary</Heading>
             <VStack divider={<Divider />} spacing={4} align="stretch">
                 <Box>
                     <Heading size="sm" mb={2} color="green.600">Revenue</Heading>
                     {data && Object.entries(data.revenue).map(([key, value]) => (
                         <DataRow key={key} label={key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())} value={value} />
                     ))}
+                    <Divider my={2}/>
                     <DataRow label="Total Revenue" value={totalRevenue} isTotal />
                 </Box>
                 <Box>
@@ -165,32 +127,34 @@ const IncomeStatement = () => {
                     {data && Object.entries(data.expenses).map(([key, value]) => (
                         <DataRow key={key} label={key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())} value={value} />
                     ))}
+                    <Divider my={2}/>
                     <DataRow label="Total Expenses" value={totalExpenses} isTotal />
                 </Box>
-                <Box>
-                    <DataRow label="Net Profit" value={netProfit} isTotal isPositive={netProfit > 0} />
+                <Box pt={4} borderTopWidth="2px" borderColor="gray.300">
+                    <Flex justify="space-between" align="center">
+                        <Text fontSize="lg" fontWeight="bold">Net Profit</Text>
+                        <Text fontSize="lg" fontWeight="bold" color={netProfit > 0 ? 'green.500' : 'red.500'}>
+                            {`₹${netProfit.toLocaleString()}`}
+                        </Text>
+                    </Flex>
                 </Box>
             </VStack>
-          </CardBody>
-        </Card>
-        <Card>
-            <CardHeader><Heading size="md">Performance Over Time</Heading></CardHeader>
-            <CardBody>
-                <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={data?.chartData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="revenue" fill="#48BB78" />
-                        <Bar dataKey="expenses" fill="#F56565" />
-                        <Bar dataKey="profit" fill="#4299E1" />
-                    </BarChart>
-                </ResponsiveContainer>
-            </CardBody>
-        </Card>
-      </SimpleGrid>
+        </Box>
+        <Box p={6} bg="white" borderRadius="lg" boxShadow="sm">
+            <Heading size="md" mb={4}>Performance Over Time</Heading>
+            <ResponsiveContainer width="100%" height={400}>
+                <BarChart data={data?.chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="revenue" fill="#6C026B" name="Revenue" />
+                    <Bar dataKey="expenses" fill="#A300A3" name="Expenses" />
+                </BarChart>
+            </ResponsiveContainer>
+        </Box>
+      </Grid>
     </Box>
   );
 };

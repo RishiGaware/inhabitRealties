@@ -30,7 +30,7 @@ const dummyRoles = [
   {
     _id: '1',
     name: 'Super Admin',
-    description: 'Full system access',
+    description: 'Full system access with all permissions',
     permissions: ['all'],
     createdAt: '2024-03-20',
     status: true,
@@ -39,7 +39,7 @@ const dummyRoles = [
     _id: '2',
     name: 'Property Manager',
     description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
+    permissions: ['properties.manage', 'listings.manage', 'properties.view'],
     createdAt: '2024-03-20',
     status: true,
   },
@@ -47,205 +47,31 @@ const dummyRoles = [
     _id: '3',
     name: 'Sales Agent',
     description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
+    permissions: ['leads.manage', 'clients.view', 'sales.create'],
     createdAt: '2024-03-20',
     status: true,
   },
   {
-    _id: '1',
-    name: 'Super Admin',
-    description: 'Full system access',
-    permissions: ['all'],
+    _id: '4',
+    name: 'Customer Service',
+    description: 'Handle customer inquiries and support',
+    permissions: ['customers.view', 'tickets.manage'],
     createdAt: '2024-03-20',
     status: true,
   },
   {
-    _id: '2',
-    name: 'Property Manager',
-    description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
+    _id: '5',
+    name: 'Viewer',
+    description: 'Read-only access to basic information',
+    permissions: ['properties.view', 'customers.view'],
     createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '3',
-    name: 'Sales Agent',
-    description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '1',
-    name: 'Super Admin',
-    description: 'Full system access',
-    permissions: ['all'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '2',
-    name: 'Property Manager',
-    description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '3',
-    name: 'Sales Agent',
-    description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '1',
-    name: 'Super Admin',
-    description: 'Full system access',
-    permissions: ['all'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '2',
-    name: 'Property Manager',
-    description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '3',
-    name: 'Sales Agent',
-    description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '1',
-    name: 'Super Admin',
-    description: 'Full system access',
-    permissions: ['all'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '2',
-    name: 'Property Manager',
-    description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '3',
-    name: 'Sales Agent',
-    description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '1',
-    name: 'Super Admin',
-    description: 'Full system access',
-    permissions: ['all'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '2',
-    name: 'Property Manager',
-    description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '3',
-    name: 'Sales Agent',
-    description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '1',
-    name: 'Super Admin',
-    description: 'Full system access',
-    permissions: ['all'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '2',
-    name: 'Property Manager',
-    description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '3',
-    name: 'Sales Agent',
-    description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '1',
-    name: 'Super Admin',
-    description: 'Full system access',
-    permissions: ['all'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '2',
-    name: 'Property Manager',
-    description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '3',
-    name: 'Sales Agent',
-    description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '1',
-    name: 'Super Admin',
-    description: 'Full system access',
-    permissions: ['all'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '2',
-    name: 'Property Manager',
-    description: 'Manage properties and listings',
-    permissions: ['properties.manage', 'listings.manage'],
-    createdAt: '2024-03-20',
-    status: true,
-  },
-  {
-    _id: '3',
-    name: 'Sales Agent',
-    description: 'Handle sales and client interactions',
-    permissions: ['leads.manage', 'clients.view'],
-    createdAt: '2024-03-20',
-    status: true,
+    status: false,
   },
 ];
 
 const RoleManagement = () => {
+  console.log('RoleManagement component is rendering!'); // Debug log
+  
   const [roles, setRoles] = useState(dummyRoles);
   const [selectedRole, setSelectedRole] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -536,6 +362,39 @@ const RoleManagement = () => {
                     onChange={handleInputChange}
                     error={formErrors.description}
                   />
+                </FormControl>
+                <FormControl>
+                  <Text fontSize="sm" fontWeight="medium" mb={2}>
+                    Permissions (comma-separated)
+                  </Text>
+                  <FloatingInput
+                    type="text"
+                    id="permissions"
+                    name="permissions"
+                    label="Permissions"
+                    value={formData.permissions.join(', ')}
+                    onChange={(e) => setFormData(prev => ({
+                      ...prev,
+                      permissions: e.target.value.split(',').map(p => p.trim()).filter(p => p)
+                    }))}
+                  />
+                </FormControl>
+                <FormControl>
+                  <Text fontSize="sm" fontWeight="medium" mb={2}>
+                    Status
+                  </Text>
+                  <select
+                    name="status"
+                    value={formData.status.toString()}
+                    onChange={(e) => setFormData(prev => ({
+                      ...prev,
+                      status: e.target.value === 'true'
+                    }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-light-primary focus:border-transparent"
+                  >
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
                 </FormControl>
               </VStack>
             </ModalBody>

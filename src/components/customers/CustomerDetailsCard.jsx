@@ -1,59 +1,37 @@
 import React from 'react';
-import {
-  Box,
-  VStack,
-  HStack,
-  Text,
-  Icon,
-  Divider,
-} from '@chakra-ui/react';
-import { FiUser, FiPhone, FiMail, FiCalendar } from 'react-icons/fi';
+import { Box, Flex, Text, Avatar, Icon } from '@chakra-ui/react';
+import { FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaBirthdayCake } from 'react-icons/fa';
 
 const CustomerDetailsCard = ({ customer }) => {
-  const {
-    personalDetails: {
-      name,
-      dob,
-      phone,
-      email
-    }
-  } = customer;
+  const { name, dob, phone, email, avatarUrl, address } = customer.personalDetails;
 
-  const details = [
-    { icon: FiUser, label: 'Name', value: name },
-    { icon: FiCalendar, label: 'Date of Birth', value: new Date(dob).toLocaleDateString() },
-    { icon: FiPhone, label: 'Phone', value: phone },
-    { icon: FiMail, label: 'Email', value: email },
-  ];
+  const DetailItem = ({ icon, text }) => (
+    <Flex align="center" mt={3}>
+      <Icon as={icon} color="purple.600" mr={3} />
+      <Text fontSize="sm" color="gray.700">
+        {text}
+      </Text>
+    </Flex>
+  );
 
   return (
-    <Box
-      bg="white"
-      borderRadius="lg"
-      boxShadow="sm"
-      p={6}
-      borderWidth="1px"
-      borderColor="gray.200"
-    >
-      <Text fontSize="lg" fontWeight="medium" color="gray.700" mb={4}>
-        Personal Details
-      </Text>
-      <Divider mb={4} />
-      <VStack spacing={4} align="stretch">
-        {details.map((detail, index) => (
-          <HStack key={index} spacing={4}>
-            <Icon as={detail.icon} w={5} h={5} color="blue.500" />
-            <Box>
-              <Text fontSize="xs" color="gray.500">
-                {detail.label}
-              </Text>
-              <Text fontSize="sm" color="gray.700">
-                {detail.value}
-              </Text>
-            </Box>
-          </HStack>
-        ))}
-      </VStack>
+    <Box p={6} bg="white" borderRadius="lg" boxShadow="sm">
+      <Flex direction="column" align="center" mb={6}>
+        <Avatar size="xl" name={name} src={avatarUrl} mb={4} />
+        <Text fontSize="xl" fontWeight="bold" color="gray.800">
+          {name}
+        </Text>
+        <Text fontSize="md" color="gray.500">
+          Customer ID: {customer.customerId}
+        </Text>
+      </Flex>
+
+      <Box>
+        <DetailItem icon={FaEnvelope} text={email} />
+        <DetailItem icon={FaPhone} text={phone} />
+        <DetailItem icon={FaBirthdayCake} text={`Born on ${new Date(dob).toLocaleDateString()}`} />
+        <DetailItem icon={FaMapMarkerAlt} text={address} />
+      </Box>
     </Box>
   );
 };

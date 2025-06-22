@@ -1,70 +1,47 @@
 import React from 'react';
-import {
-  VStack,
-  Box,
-  Text,
-  Icon,
-  HStack,
-} from '@chakra-ui/react';
-import { FiPhone, FiMail, FiUser, FiCalendar } from 'react-icons/fi';
+import { Box, Flex, Text, Icon } from '@chakra-ui/react';
+import { FaPhone, FaEnvelope, FaHandshake } from 'react-icons/fa';
 
-const InteractionHistory = ({ interactions = [] }) => {
-  const getInteractionIcon = (type) => {
+const InteractionHistory = ({ interactions }) => {
+  const getIconForType = (type) => {
     switch (type.toLowerCase()) {
       case 'call':
-        return FiPhone;
+        return FaPhone;
       case 'email':
-        return FiMail;
+        return FaEnvelope;
       case 'meeting':
-        return FiUser;
+        return FaHandshake;
       default:
-        return FiCalendar;
+        return FaHandshake;
     }
   };
 
   return (
-    <VStack spacing={4} align="stretch" w="100%">
+    <Box>
       {interactions.map((interaction, index) => (
-        <Box
-          key={index}
-          p={4}
-          bg="white"
-          borderRadius="lg"
-          boxShadow="sm"
-          borderWidth="1px"
-          borderColor="gray.200"
-        >
-          <HStack spacing={4}>
-            <Icon
-              as={getInteractionIcon(interaction.type)}
-              w={5}
-              h={5}
-              color="blue.500"
-            />
-            <Box flex="1">
-              <HStack justify="space-between" mb={2}>
-                <Text fontWeight="medium" fontSize="sm" color="gray.700">
-                  {interaction.type.charAt(0).toUpperCase() + interaction.type.slice(1)}
-                </Text>
-                <Text fontSize="xs" color="gray.500">
-                  {new Date(interaction.date).toLocaleDateString()}
-                </Text>
-              </HStack>
-              <Text fontSize="sm" color="gray.600">
-                {interaction.notes}
-              </Text>
-            </Box>
-          </HStack>
-        </Box>
+        <Flex key={index} align="start" mb={4}>
+          <Icon
+            as={getIconForType(interaction.type)}
+            w={5}
+            h={5}
+            color="purple.500"
+            mt={1}
+            mr={4}
+          />
+          <Box>
+            <Text fontWeight="bold" color="gray.800" textTransform="capitalize">
+              {interaction.type}
+            </Text>
+            <Text fontSize="sm" color="gray.500">
+              {new Date(interaction.date).toLocaleDateString()}
+            </Text>
+            <Text fontSize="sm" color="gray.700" mt={1}>
+              {interaction.notes}
+            </Text>
+          </Box>
+        </Flex>
       ))}
-      {interactions.length === 0 && (
-        <Box p={4} bg="gray.50" borderRadius="lg" textAlign="center">
-          <Text fontSize="sm" color="gray.500">
-            No interactions recorded
-          </Text>
-        </Box>
-      )}
-    </VStack>
+    </Box>
   );
 };
 

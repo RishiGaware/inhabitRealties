@@ -18,7 +18,6 @@ import {
   Input,
   useToast,
   Card,
-  CardHeader,
   CardBody,
   Icon,
   List,
@@ -28,12 +27,10 @@ import {
   Stat,
   StatLabel,
   StatNumber,
-  StatHelpText,
   Badge,
 } from '@chakra-ui/react';
 import { FiUser, FiSettings, FiLock, FiActivity, FiCheckCircle, FiAward, FiBriefcase, FiDollarSign } from 'react-icons/fi';
 
-// Enhanced placeholder user data
 const dummyUser = {
   name: 'Alexandra Rodriguez',
   email: 'alex.rodriguez@inhabit.com',
@@ -63,51 +60,52 @@ const dummyUser = {
 };
 
 const UserProfile = () => {
+  const toast = useToast();
   const [user, setUser] = useState(dummyUser);
   const [formData, setFormData] = useState({
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      address: user.address,
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    address: user.address,
   });
-  const toast = useToast();
 
   const handleInputChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleProfileUpdate = (e) => {
     e.preventDefault();
-    setUser({...user, ...formData});
+    setUser({ ...user, ...formData });
     toast({
       title: 'Profile Updated',
+      description: 'Your profile has been updated successfully.',
       status: 'success',
       duration: 3000,
       isClosable: true,
     });
-  }
+  };
 
   const handlePasswordChange = (e) => {
     e.preventDefault();
     toast({
-        title: 'Password Changed',
-        description: 'Your password has been updated successfully.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
+      title: 'Password Changed',
+      description: 'Your password has been updated successfully.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
     });
-  }
-  
+  };
+
   const getActivityIcon = (type) => {
-    switch(type) {
+    switch (type) {
       case 'sale': return FiDollarSign;
       case 'listing': return FiBriefcase;
       case 'client': return FiUser;
       case 'award': return FiAward;
       default: return FiCheckCircle;
     }
-  }
-  
+  };
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'completed': return 'green';
@@ -119,10 +117,9 @@ const UserProfile = () => {
 
   return (
     <Box p={{ base: 4, md: 8 }} bg="gray.50" minH="100vh">
-      <Flex direction={{base: 'column', lg: 'row'}} gap={8}>
-        
-        {/* Left Column: Profile Card */}
-        <Box flex="1" maxW={{lg: "400px"}}>
+      <Flex direction={{ base: 'column', lg: 'row' }} gap={8}>
+        {/* Profile Card */}
+        <Box flex="1" maxW={{ lg: '400px' }}>
           <Card borderRadius="xl" shadow="lg" overflow="hidden" h="100%">
             <Box h="120px" bgGradient="linear(to-r, purple.500, purple.500)" />
             <CardBody textAlign="center" p={6}>
@@ -131,7 +128,6 @@ const UserProfile = () => {
               <Text color="gray.500" fontSize="lg" fontWeight="semibold">{user.role}</Text>
               <Text color="gray.600" mt={1}>{user.department}</Text>
               <Text color="gray.400" fontSize="sm">Employee ID: {user.employeeId}</Text>
-              
               <SimpleGrid columns={2} spacing={4} mt={6}>
                 <Stat>
                   <StatLabel>Total Sales</StatLabel>
@@ -154,7 +150,7 @@ const UserProfile = () => {
           </Card>
         </Box>
 
-        {/* Right Column: Tabs */}
+        {/* Tabs Section */}
         <Box flex="2">
           <Card borderRadius="xl" shadow="lg">
             <Tabs variant="enclosed-colored" colorScheme="purple" isLazy>
@@ -164,55 +160,42 @@ const UserProfile = () => {
                 <Tab><Icon as={FiAward} mr={2} /> Achievements</Tab>
                 <Tab><Icon as={FiSettings} mr={2} /> Settings</Tab>
               </TabList>
-
               <TabPanels>
-                {/* Profile Panel */}
+                {/* Profile Tab */}
                 <TabPanel>
                   <CardBody>
                     <Heading size="lg" mb={6}>Personal Information</Heading>
                     <VStack spacing={5} align="start">
-                      <HStack>
-                        <Icon as={FiUser} color="gray.400" boxSize={5} />
-                        <Text><strong>Name:</strong> {user.name}</Text>
-                      </HStack>
-                       <HStack>
-                        <Icon as={FiDollarSign} color="gray.400" boxSize={5} />
-                        <Text><strong>Email:</strong> {user.email}</Text>
-                      </HStack>
-                      <HStack>
-                        <Icon as={FiBriefcase} color="gray.400" boxSize={5} />
-                        <Text><strong>Phone:</strong> {user.phone}</Text>
-                      </HStack>
-                      <HStack>
-                        <Icon as={FiLock} color="gray.400" boxSize={5} />
-                        <Text><strong>Address:</strong> {user.address}</Text>
-                      </HStack>
+                      <HStack><Icon as={FiUser} /><Text><strong>Name:</strong> {user.name}</Text></HStack>
+                      <HStack><Icon as={FiDollarSign} /><Text><strong>Email:</strong> {user.email}</Text></HStack>
+                      <HStack><Icon as={FiBriefcase} /><Text><strong>Phone:</strong> {user.phone}</Text></HStack>
+                      <HStack><Icon as={FiLock} /><Text><strong>Address:</strong> {user.address}</Text></HStack>
                     </VStack>
                   </CardBody>
                 </TabPanel>
-                
-                {/* Activity Panel */}
+
+                {/* Activity Tab */}
                 <TabPanel>
-                    <CardBody>
-                        <Heading size="lg" mb={6}>Recent Activity</Heading>
-                        <List spacing={5}>
-                            {user.recentActivity.map(activity => (
-                                <ListItem key={activity.id}>
-                                    <HStack spacing={4}>
-                                        <Icon as={getActivityIcon(activity.type)} color={`${getStatusColor(activity.status)}.500`} boxSize={6} />
-                                        <Box>
-                                          <Text fontWeight="medium">{activity.action}</Text>
-                                          <Text fontSize="sm" color="gray.500">{activity.date}</Text>
-                                        </Box>
-                                        <Badge colorScheme={getStatusColor(activity.status)} ml="auto" textTransform="capitalize">{activity.status}</Badge>
-                                    </HStack>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </CardBody>
+                  <CardBody>
+                    <Heading size="lg" mb={6}>Recent Activity</Heading>
+                    <List spacing={5}>
+                      {user.recentActivity.map(activity => (
+                        <ListItem key={activity.id}>
+                          <HStack spacing={4}>
+                            <Icon as={getActivityIcon(activity.type)} color={`${getStatusColor(activity.status)}.500`} boxSize={6} />
+                            <Box>
+                              <Text fontWeight="medium">{activity.action}</Text>
+                              <Text fontSize="sm" color="gray.500">{activity.date}</Text>
+                            </Box>
+                            <Badge colorScheme={getStatusColor(activity.status)} ml="auto">{activity.status}</Badge>
+                          </HStack>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </CardBody>
                 </TabPanel>
 
-                {/* Achievements Panel */}
+                {/* Achievements Tab */}
                 <TabPanel>
                   <CardBody>
                     <Heading size="lg" mb={6}>Awards & Recognition</Heading>
@@ -233,60 +216,59 @@ const UserProfile = () => {
                   </CardBody>
                 </TabPanel>
 
-                {/* Settings Panel */}
+                {/* Settings Tab */}
                 <TabPanel>
                   <CardBody>
-                    <SimpleGrid columns={{base: 1, lg: 2}} spacing={10}>
-                      {/* Edit Profile Form */}
+                    <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={10}>
+                      {/* Profile Form */}
                       <Box>
-                          <Heading size="md" mb={6}>Edit Profile</Heading>
-                          <form onSubmit={handleProfileUpdate}>
-                              <VStack spacing={4}>
-                                  <FormControl>
-                                      <FormLabel>Full Name</FormLabel>
-                                      <Input name="name" value={formData.name} onChange={handleInputChange}/>
-                                  </FormControl>
-                                  <FormControl>
-                                      <FormLabel>Email Address</FormLabel>
-                                      <Input name="email" type="email" value={formData.email} onChange={handleInputChange} />
-                                  </FormControl>
-                                  <FormControl>
-                                      <FormLabel>Phone Number</FormLabel>
-                                      <Input name="phone" value={formData.phone} onChange={handleInputChange}/>
-                                  </FormControl>
-                                  <FormControl>
-                                      <FormLabel>Address</FormLabel>
-                                      <Input name="address" value={formData.address} onChange={handleInputChange}/>
-                                  </FormControl>
-                                  <Button type="submit" colorScheme="purple" alignSelf="start">Save Changes</Button>
-                              </VStack>
-                          </form>
+                        <Heading size="md" mb={6}>Edit Profile</Heading>
+                        <form onSubmit={handleProfileUpdate}>
+                          <VStack spacing={4}>
+                            <FormControl>
+                              <FormLabel>Full Name</FormLabel>
+                              <Input name="name" value={formData.name} onChange={handleInputChange} />
+                            </FormControl>
+                            <FormControl>
+                              <FormLabel>Email Address</FormLabel>
+                              <Input name="email" type="email" value={formData.email} onChange={handleInputChange} />
+                            </FormControl>
+                            <FormControl>
+                              <FormLabel>Phone Number</FormLabel>
+                              <Input name="phone" value={formData.phone} onChange={handleInputChange} />
+                            </FormControl>
+                            <FormControl>
+                              <FormLabel>Address</FormLabel>
+                              <Input name="address" value={formData.address} onChange={handleInputChange} />
+                            </FormControl>
+                            <Button type="submit" colorScheme="purple" alignSelf="start">Save Changes</Button>
+                          </VStack>
+                        </form>
                       </Box>
-                      {/* Change Password Form */}
+                      {/* Password Form */}
                       <Box>
-                          <Heading size="md" mb={6}>Change Password</Heading>
-                          <form onSubmit={handlePasswordChange}>
-                              <VStack spacing={4}>
-                                  <FormControl>
-                                      <FormLabel>Current Password</FormLabel>
-                                      <Input type="password" placeholder="••••••••"/>
-                                  </FormControl>
-                                  <FormControl>
-                                      <FormLabel>New Password</FormLabel>
-                                      <Input type="password" placeholder="••••••••" />
-                                  </FormControl>
-                                  <FormControl>
-                                      <FormLabel>Confirm New Password</FormLabel>
-                                      <Input type="password" placeholder="••••••••" />
-                                  </FormControl>
-                                  <Button type="submit" colorScheme="purple" alignSelf="start" leftIcon={<FiLock/>}>Change Password</Button>
-                              </VStack>
-                          </form>
+                        <Heading size="md" mb={6}>Change Password</Heading>
+                        <form onSubmit={handlePasswordChange}>
+                          <VStack spacing={4}>
+                            <FormControl>
+                              <FormLabel>Current Password</FormLabel>
+                              <Input type="password" placeholder="••••••••" />
+                            </FormControl>
+                            <FormControl>
+                              <FormLabel>New Password</FormLabel>
+                              <Input type="password" placeholder="••••••••" />
+                            </FormControl>
+                            <FormControl>
+                              <FormLabel>Confirm New Password</FormLabel>
+                              <Input type="password" placeholder="••••••••" />
+                            </FormControl>
+                            <Button type="submit" colorScheme="purple" alignSelf="start" leftIcon={<FiLock />}>Change Password</Button>
+                          </VStack>
+                        </form>
                       </Box>
                     </SimpleGrid>
                   </CardBody>
                 </TabPanel>
-
               </TabPanels>
             </Tabs>
           </Card>
@@ -296,4 +278,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile; 
+export default UserProfile;
