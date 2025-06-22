@@ -3,7 +3,7 @@ import bannerImage from '../assets/images/houseBanner.jpg';
 
 const Banner = () => {
   return (
-    <div className="relative h-[450px] md:h-[600px] flex items-center justify-center text-white overflow-hidden">
+    <div className="relative h-screen flex items-center justify-center text-white overflow-hidden">
       <div
         className="absolute inset-0 bg-cover bg-center ken-burns"
         style={{ backgroundImage: `url(${bannerImage})` }}

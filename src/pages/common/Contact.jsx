@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaUser, FaRegCommentDots } from 'react-icons/fa';
 
 const Contact = () => {
   return (
@@ -21,16 +21,25 @@ const Contact = () => {
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Send us a Message</h2>
             <form action="#" method="POST" className="space-y-6">
               <div>
-                <label htmlFor="name" className="sr-only">Name</label>
-                <input type="text" name="name" id="name" placeholder="Your Name" className="w-full px-4 py-3 rounded-md border-gray-300 focus:ring-purple-500 focus:border-purple-500" />
+                <label htmlFor="name" className="block text-md font-medium text-gray-700 mb-2">Your Name</label>
+                <div className="flex items-center border border-gray-300 rounded-lg p-3 focus-within:ring-2 focus-within:ring-purple-500 transition-all duration-300">
+                  <FaUser className="text-gray-400 mr-3" />
+                  <input type="text" name="name" id="name" placeholder="John Doe" className="w-full bg-transparent border-none outline-none text-gray-700" />
+                </div>
               </div>
               <div>
-                <label htmlFor="email" className="sr-only">Email</label>
-                <input type="email" name="email" id="email" placeholder="Your Email" className="w-full px-4 py-3 rounded-md border-gray-300 focus:ring-purple-500 focus:border-purple-500" />
+                <label htmlFor="email" className="block text-md font-medium text-gray-700 mb-2">Your Email</label>
+                <div className="flex items-center border border-gray-300 rounded-lg p-3 focus-within:ring-2 focus-within:ring-purple-500 transition-all duration-300">
+                  <FaEnvelope className="text-gray-400 mr-3" />
+                  <input type="email" name="email" id="email" placeholder="you@example.com" className="w-full bg-transparent border-none outline-none text-gray-700" />
+                </div>
               </div>
               <div>
-                <label htmlFor="message" className="sr-only">Message</label>
-                <textarea name="message" id="message" rows="6" placeholder="Your Message" className="w-full px-4 py-3 rounded-md border-gray-300 focus:ring-purple-500 focus:border-purple-500"></textarea>
+                <label htmlFor="message" className="block text-md font-medium text-gray-700 mb-2">Your Message</label>
+                <div className="flex items-start border border-gray-300 rounded-lg p-3 focus-within:ring-2 focus-within:ring-purple-500 transition-all duration-300">
+                  <FaRegCommentDots className="text-gray-400 mr-3 mt-1" />
+                  <textarea name="message" id="message" rows="6" placeholder="Your Message" className="w-full bg-transparent border-none outline-none text-gray-700 resize-none"></textarea>
+                </div>
               </div>
               <div>
                 <button type="submit" className="w-full bg-purple-600 text-white font-bold py-3 px-6 rounded-md hover:bg-purple-700 transition-colors">

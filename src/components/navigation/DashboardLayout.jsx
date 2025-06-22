@@ -79,9 +79,7 @@ const DashboardLayout = ({ children }) => {
         setSidebarOpen={setSidebarOpen}
       />
 
-      <div className={`transition-all duration-300 ease-in-out p-4 ${
-        sidebarOpen && !isMobile ? 'ml-72' : 'ml-20'
-      } ${isMobile ? 'ml-0' : ''}`}>
+      <div className={`transition-all duration-300 ease-in-out p-4 ${isMobile ? 'ml-0' : (sidebarOpen ? 'ml-72' : 'ml-20')}`}>
         {children}
       </div>
 

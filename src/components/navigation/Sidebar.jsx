@@ -305,13 +305,13 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
             <img 
               src={sbicon} 
               alt="logo" 
-              className={`rounded-full object-cover object-center cursor-pointer transition-all duration-500 ${isMobile ? 'w-8 h-8' : 'w-12 h-12'} ${open ? 'rotate-0' : 'rotate-[360deg]'}`}
+              className={`rounded-full object-cover object-center cursor-pointer transition-all duration-500 ${isMobile ? 'w-4 h-4' : 'w-6 h-6'} ${open ? 'rotate-0' : 'rotate-[360deg]'}`}
             />
             {open && (
               <img 
                 src={logown} 
                 alt="Inhabit Realties Logo" 
-                className={`w-40 h-10 object-contain cursor-pointer transition-transform duration-300 ${open ? 'rotate-0' : '-rotate-180'}`}
+                className={`w-40 h-30 object-contain cursor-pointer transition-transform duration-300 ${open ? 'rotate-0' : '-rotate-180'}`}
               />
             )}
           </div>
