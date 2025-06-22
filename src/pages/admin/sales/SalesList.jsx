@@ -2,12 +2,6 @@ import React, { useState } from 'react';
 import {
   Box,
   Button,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
   Badge,
   HStack,
   Text,
@@ -27,18 +21,15 @@ import {
   Textarea,
   useToast,
   IconButton,
-  Flex,
-  Card,
-  CardBody,
-  Stat,
-  StatLabel,
-  StatNumber,
-  StatHelpText,
   Grid,
-  GridItem,
 } from '@chakra-ui/react';
-import { FiEdit2, FiTrash2, FiEye, FiPlus, FiDollarSign, FiTrendingUp, FiTrendingDown } from 'react-icons/fi';
+import { FiEdit2, FiTrash2, FiEye, FiPlus } from 'react-icons/fi';
+import { FaDollarSign, FaCheckCircle, FaHourglassHalf, FaListAlt, FaHandHoldingUsd } from 'react-icons/fa';
+
 import ViewPaymentsModal from './ViewPaymentsModal';
+import TableContainer from '../../../components/common/Table/TableContainer';
+import CommonTable from '../../../components/common/Table/CommonTable';
+import StatCard from '../../../components/common/StatCard';
 
 // Static dummy data for sales
 const dummySales = [
@@ -145,37 +136,24 @@ const SalesList = () => {
   const [isViewPaymentsOpen, setIsViewPaymentsOpen] = useState(false);
   const { isOpen: isFormOpen, onOpen: onFormOpen, onClose: onFormClose } = useDisclosure();
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
-  const [formData, setFormData] = useState({
-    propertyId: '',
-    propertyName: '',
-    customerName: '',
-    customerEmail: '',
-    customerPhone: '',
-    salePrice: '',
-    saleDate: '',
-    status: '',
-    agentName: '',
-    commission: '',
-    paymentStatus: '',
-    installmentPlan: '',
-    totalInstallments: '',
-    notes: '',
-  });
+  const [formData, setFormData] = useState({});
   const toast = useToast();
 
-  // Calculate summary statistics
   const totalSales = sales.length;
-  const completedSales = sales.filter(sale => sale.status === 'completed').length;
-  const pendingSales = sales.filter(sale => sale.status === 'pending').length;
+  const completedSales = sales.filter(s => s.status === 'completed').length;
+  const pendingSales = sales.filter(s => s.status === 'pending').length;
   const totalRevenue = sales.reduce((sum, sale) => sum + sale.salePrice, 0);
-  const totalCommission = sales.reduce((sum, sale) => sum + sale.commission, 0);
+
+  const stats = [
+    { title: 'Total Sales', value: totalSales, icon: FaListAlt },
+    { title: 'Completed Sales', value: completedSales, icon: FaCheckCircle },
+    { title: 'Pending Sales', value: pendingSales, icon: FaHourglassHalf },
+    { title: 'Total Revenue', value: `₹${totalRevenue.toLocaleString()}`, icon: FaHandHoldingUsd },
+  ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e) => {
@@ -214,436 +192,163 @@ const SalesList = () => {
     onFormClose();
   };
 
-  const handleEdit = (sale) => {
-    setSelectedSale(sale);
+  const handleAddNew = () => {
+    setSelectedSale(null);
     setFormData({
-      propertyId: sale.propertyId,
-      propertyName: sale.propertyName,
-      customerName: sale.customerName,
-      customerEmail: sale.customerEmail,
-      customerPhone: sale.customerPhone,
-      salePrice: sale.salePrice.toString(),
-      saleDate: sale.saleDate,
-      status: sale.status,
-      agentName: sale.agentName,
-      commission: sale.commission.toString(),
-      paymentStatus: sale.paymentStatus,
-      installmentPlan: sale.installmentPlan,
-      totalInstallments: sale.totalInstallments.toString(),
-      notes: sale.notes,
+      propertyId: '',
+      propertyName: '',
+      customerName: '',
+      salePrice: '',
+      saleDate: '',
+      status: 'pending',
+      paymentStatus: 'pending',
     });
     onFormOpen();
   };
 
+  const handleEdit = (sale) => {
+    setSelectedSale(sale);
+    setFormData(sale);
+    onFormOpen();
+  };
+  
   const handleDelete = () => {
-    setSales(sales.filter(sale => sale.id !== selectedSale.id));
-    toast({
-      title: 'Sale deleted successfully',
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    });
+    setSales(sales.filter((sale) => sale.id !== selectedSale.id));
+    toast({ title: 'Sale deleted.', status: 'success', duration: 3000, isClosable: true });
     onDeleteClose();
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'completed': return 'green';
-      case 'pending': return 'orange';
-      case 'cancelled': return 'red';
-      default: return 'gray';
-    }
+  const openDeleteModal = (sale) => {
+    setSelectedSale(sale);
+    onDeleteOpen();
   };
 
-  const getPaymentStatusColor = (status) => {
-    switch (status) {
-      case 'paid': return 'green';
-      case 'partial': return 'orange';
-      case 'pending': return 'red';
-      default: return 'gray';
-    }
-  };
-
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
+  const columns = [
+    { Header: 'Property Name', accessor: 'propertyName' },
+    { Header: 'Customer', accessor: 'customerName' },
+    {
+      Header: 'Sale Price',
+      accessor: 'salePrice',
+      Cell: ({ value }) => `₹${value.toLocaleString()}`,
+    },
+    {
+      Header: 'Sale Date',
+      accessor: 'saleDate',
+      Cell: ({ value }) => new Date(value).toLocaleDateString(),
+    },
+    {
+      Header: 'Status',
+      accessor: 'status',
+      Cell: ({ value }) => (
+        <Badge colorScheme={value === 'completed' ? 'green' : 'yellow'}>{value}</Badge>
+      ),
+    },
+    {
+      Header: 'Payment',
+      accessor: 'paymentStatus',
+      Cell: ({ value }) => (
+        <Badge colorScheme={value === 'paid' ? 'green' : value === 'partial' ? 'orange' : 'red'}>
+          {value}
+        </Badge>
+      ),
+    },
+    {
+      Header: 'Actions',
+      accessor: 'actions',
+      Cell: ({ row }) => (
+        <HStack>
+          <IconButton icon={<FiEye />} size="sm" onClick={() => { setSelectedSale(row.original); setIsViewPaymentsOpen(true); }} />
+          <IconButton icon={<FiEdit2 />} size="sm" onClick={() => handleEdit(row.original)} />
+          <IconButton icon={<FiTrash2 />} size="sm" colorScheme="red" onClick={() => openDeleteModal(row.original)} />
+        </HStack>
+      ),
+    },
+  ];
 
   return (
     <Box p={6}>
-      {/* Header */}
-      <HStack justify="space-between" mb={6}>
-        <Text fontSize="2xl" fontWeight="bold" color="light.darkText">
-          Sales Management
-        </Text>
-        <Button
-          leftIcon={<FiPlus />}
-          colorScheme="brand"
-          onClick={() => {
-            setSelectedSale(null);
-            setFormData({
-              propertyId: '',
-              propertyName: '',
-              customerName: '',
-              customerEmail: '',
-              customerPhone: '',
-              salePrice: '',
-              saleDate: '',
-              status: '',
-              agentName: '',
-              commission: '',
-              paymentStatus: '',
-              installmentPlan: '',
-              totalInstallments: '',
-              notes: '',
-            });
-            onFormOpen();
-          }}
-        >
-          Add Sale
-        </Button>
-      </HStack>
-
-      {/* Summary Cards */}
-      <Grid templateColumns="repeat(auto-fit, minmax(200px, 1fr))" gap={6} mb={6}>
-        <Card>
-          <CardBody>
-            <Stat>
-              <StatLabel>Total Sales</StatLabel>
-              <StatNumber>{totalSales}</StatNumber>
-              <StatHelpText>
-                <FiTrendingUp color="green" /> {completedSales} completed
-              </StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardBody>
-            <Stat>
-              <StatLabel>Total Revenue</StatLabel>
-              <StatNumber>{formatCurrency(totalRevenue)}</StatNumber>
-              <StatHelpText>
-                <FiDollarSign /> All time
-              </StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardBody>
-            <Stat>
-              <StatLabel>Total Commission</StatLabel>
-              <StatNumber>{formatCurrency(totalCommission)}</StatNumber>
-              <StatHelpText>
-                <FiDollarSign /> Agent earnings
-              </StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
-        <Card>
-          <CardBody>
-            <Stat>
-              <StatLabel>Pending Sales</StatLabel>
-              <StatNumber>{pendingSales}</StatNumber>
-              <StatHelpText>
-                <FiTrendingDown color="orange" /> In progress
-              </StatHelpText>
-            </Stat>
-          </CardBody>
-        </Card>
+      <Text fontSize="2xl" fontWeight="bold" mb={6}>Sales Management</Text>
+      
+      <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap={6} mb={8}>
+        {stats.map((stat, index) => (
+          <StatCard key={index} {...stat} change="" />
+        ))}
       </Grid>
+      
+      <TableContainer
+        title="All Sales"
+        onAddNew={handleAddNew}
+        addNewButtonLabel="Add New Sale"
+      >
+        <CommonTable columns={columns} data={sales} />
+      </TableContainer>
 
-      {/* Sales Table */}
-      <Box overflowX="auto">
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th>Property</Th>
-              <Th>Customer</Th>
-              <Th>Sale Price</Th>
-              <Th>Status</Th>
-              <Th>Payment Status</Th>
-              <Th>Agent</Th>
-              <Th>Actions</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {sales.map((sale) => (
-              <Tr key={sale.id}>
-                <Td>
-                  <VStack align="start" spacing={1}>
-                    <Text fontWeight="medium">{sale.propertyName}</Text>
-                    <Text fontSize="sm" color="gray.500">{sale.propertyId}</Text>
-                  </VStack>
-                </Td>
-                <Td>
-                  <VStack align="start" spacing={1}>
-                    <Text fontWeight="medium">{sale.customerName}</Text>
-                    <Text fontSize="sm" color="gray.500">{sale.customerEmail}</Text>
-                  </VStack>
-                </Td>
-                <Td>
-                  <Text fontWeight="bold">{formatCurrency(sale.salePrice)}</Text>
-                </Td>
-                <Td>
-                  <Badge colorScheme={getStatusColor(sale.status)}>
-                    {sale.status}
-                  </Badge>
-                </Td>
-                <Td>
-                  <Badge colorScheme={getPaymentStatusColor(sale.paymentStatus)}>
-                    {sale.paymentStatus}
-                  </Badge>
-                </Td>
-                <Td>{sale.agentName}</Td>
-                <Td>
-                  <HStack spacing={2}>
-                    <IconButton
-                      aria-label="View payments"
-                      icon={<FiEye />}
-                      size="sm"
-                      colorScheme="blue"
-                      variant="ghost"
-                      onClick={() => {
-                        setSelectedSale(sale);
-                        setIsViewPaymentsOpen(true);
-                      }}
-                    />
-                    <IconButton
-                      aria-label="Edit sale"
-                      icon={<FiEdit2 />}
-                      size="sm"
-                      colorScheme="brand"
-                      variant="ghost"
-                      onClick={() => handleEdit(sale)}
-                    />
-                    <IconButton
-                      aria-label="Delete sale"
-                      icon={<FiTrash2 />}
-                      size="sm"
-                      colorScheme="red"
-                      variant="ghost"
-                      onClick={() => {
-                        setSelectedSale(sale);
-                        onDeleteOpen();
-                      }}
-                    />
-                  </HStack>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </Box>
-
-      {/* Add/Edit Sale Form Modal */}
-      <Modal isOpen={isFormOpen} onClose={onFormClose} size="xl">
+      {/* Add/Edit Sale Modal */}
+      <Modal isOpen={isFormOpen} onClose={onFormClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            {selectedSale ? 'Edit Sale' : 'Add New Sale'}
-          </ModalHeader>
+          <ModalHeader>{selectedSale ? 'Edit Sale' : 'Add New Sale'}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
+            <ModalBody>
               <VStack spacing={4}>
-                <HStack spacing={4} w="full">
-                  <FormControl isRequired>
-                    <FormLabel>Property ID</FormLabel>
-                    <Input
-                      name="propertyId"
-                      value={formData.propertyId}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Property Name</FormLabel>
-                    <Input
-                      name="propertyName"
-                      value={formData.propertyName}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                </HStack>
-                
-                <HStack spacing={4} w="full">
-                  <FormControl isRequired>
-                    <FormLabel>Customer Name</FormLabel>
-                    <Input
-                      name="customerName"
-                      value={formData.customerName}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Customer Email</FormLabel>
-                    <Input
-                      name="customerEmail"
-                      type="email"
-                      value={formData.customerEmail}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                </HStack>
-
-                <HStack spacing={4} w="full">
-                  <FormControl isRequired>
-                    <FormLabel>Customer Phone</FormLabel>
-                    <Input
-                      name="customerPhone"
-                      value={formData.customerPhone}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Sale Price</FormLabel>
-                    <Input
-                      name="salePrice"
-                      type="number"
-                      value={formData.salePrice}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                </HStack>
-
-                <HStack spacing={4} w="full">
-                  <FormControl isRequired>
-                    <FormLabel>Sale Date</FormLabel>
-                    <Input
-                      name="saleDate"
-                      type="date"
-                      value={formData.saleDate}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Status</FormLabel>
-                    <Select
-                      name="status"
-                      value={formData.status}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select Status</option>
-                      <option value="pending">Pending</option>
-                      <option value="completed">Completed</option>
-                      <option value="cancelled">Cancelled</option>
-                    </Select>
-                  </FormControl>
-                </HStack>
-
-                <HStack spacing={4} w="full">
-                  <FormControl isRequired>
-                    <FormLabel>Agent Name</FormLabel>
-                    <Input
-                      name="agentName"
-                      value={formData.agentName}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Commission</FormLabel>
-                    <Input
-                      name="commission"
-                      type="number"
-                      value={formData.commission}
-                      onChange={handleInputChange}
-                    />
-                  </FormControl>
-                </HStack>
-
-                <HStack spacing={4} w="full">
-                  <FormControl isRequired>
-                    <FormLabel>Payment Status</FormLabel>
-                    <Select
-                      name="paymentStatus"
-                      value={formData.paymentStatus}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select Payment Status</option>
-                      <option value="pending">Pending</option>
-                      <option value="partial">Partial</option>
-                      <option value="paid">Paid</option>
-                    </Select>
-                  </FormControl>
-                  <FormControl isRequired>
-                    <FormLabel>Installment Plan</FormLabel>
-                    <Select
-                      name="installmentPlan"
-                      value={formData.installmentPlan}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select Plan</option>
-                      <option value="lump-sum">Lump Sum</option>
-                      <option value="monthly">Monthly</option>
-                      <option value="quarterly">Quarterly</option>
-                      <option value="custom">Custom</option>
-                    </Select>
-                  </FormControl>
-                </HStack>
-
-                <FormControl>
-                  <FormLabel>Total Installments</FormLabel>
-                  <Input
-                    name="totalInstallments"
-                    type="number"
-                    value={formData.totalInstallments}
-                    onChange={handleInputChange}
-                  />
+                <FormControl isRequired>
+                  <FormLabel>Property Name</FormLabel>
+                  <Input name="propertyName" value={formData.propertyName || ''} onChange={handleInputChange} />
                 </FormControl>
-
+                <FormControl isRequired>
+                  <FormLabel>Customer Name</FormLabel>
+                  <Input name="customerName" value={formData.customerName || ''} onChange={handleInputChange} />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Sale Price</FormLabel>
+                  <Input type="number" name="salePrice" value={formData.salePrice || ''} onChange={handleInputChange} />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Sale Date</FormLabel>
+                  <Input type="date" name="saleDate" value={formData.saleDate || ''} onChange={handleInputChange} />
+                </FormControl>
                 <FormControl>
-                  <FormLabel>Notes</FormLabel>
-                  <Textarea
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleInputChange}
-                    rows={3}
-                  />
+                  <FormLabel>Status</FormLabel>
+                  <Select name="status" value={formData.status || 'pending'} onChange={handleInputChange}>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                  </Select>
                 </FormControl>
               </VStack>
-            </form>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={onFormClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="brand" onClick={handleSubmit}>
-              {selectedSale ? 'Update' : 'Create'}
-            </Button>
-          </ModalFooter>
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="gray" mr={3} onClick={onFormClose}>Cancel</Button>
+              <Button colorScheme="purple" type="submit">Save</Button>
+            </ModalFooter>
+          </form>
         </ModalContent>
       </Modal>
 
       {/* Delete Confirmation Modal */}
-      <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
+      <Modal isOpen={isDeleteOpen} onClose={onDeleteClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Delete Sale</ModalHeader>
+          <ModalHeader>Confirm Deletion</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text>
-              Are you sure you want to delete the sale for{' '}
-              {selectedSale && selectedSale.propertyName}? This action cannot be undone.
-            </Text>
+            Are you sure you want to delete the sale for property "{selectedSale?.propertyName}"?
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={onDeleteClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="red" onClick={handleDelete}>
-              Delete
-            </Button>
+            <Button colorScheme="gray" mr={3} onClick={onDeleteClose}>Cancel</Button>
+            <Button colorScheme="red" onClick={handleDelete}>Delete</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
 
       {/* View Payments Modal */}
-      <ViewPaymentsModal
-        isOpen={isViewPaymentsOpen}
-        onClose={() => setIsViewPaymentsOpen(false)}
-        sale={selectedSale}
-      />
+      {selectedSale && (
+        <ViewPaymentsModal
+          isOpen={isViewPaymentsOpen}
+          onClose={() => setIsViewPaymentsOpen(false)}
+          sale={selectedSale}
+        />
+      )}
     </Box>
   );
 };

@@ -115,20 +115,20 @@ const App = () => {
           <Route path='/property/property-types' element={<DashboardLayout><PropertyTypes /></DashboardLayout>} />
           
           {/* Lead Management Routes */}
-          <Route path='/leads/add-lead' element={<DashboardLayout><AddLead /></DashboardLayout>} />
-          <Route path='/leads/view-leads' element={<DashboardLayout><ViewLeads /></DashboardLayout>} />
-          <Route path='/leads/lead-qualification' element={<DashboardLayout><LeadQualification /></DashboardLayout>} />
+          <Route path='/lead/add' element={<DashboardLayout><AddLead /></DashboardLayout>} />
+          <Route path='/lead/view' element={<DashboardLayout><ViewLeads /></DashboardLayout>} />
+          <Route path='/lead/qualification' element={<DashboardLayout><LeadQualification /></DashboardLayout>} />
           
           {/* Customer Management Routes */}
-          <Route path='/customers/customer-profiles' element={<DashboardLayout><CustomerProfiles /></DashboardLayout>} />
+          <Route path='/customers/profiles' element={<DashboardLayout><CustomerProfiles /></DashboardLayout>} />
           <Route path='/customers/documents' element={<DashboardLayout><CustomerDocuments /></DashboardLayout>} />
           <Route path='/customers/site-visits' element={<DashboardLayout><SiteVisits /></DashboardLayout>} />
           
           {/* Sales Management Routes */}
-          <Route path='/sales/sales-list' element={<DashboardLayout><SalesList /></DashboardLayout>} />
-          <Route path='/sales/add-payment' element={<DashboardLayout><AddPayment /></DashboardLayout>} />
-          <Route path='/sales/pending-payments' element={<DashboardLayout><PendingPayments /></DashboardLayout>} />
-          <Route path='/sales/sales-reports' element={<DashboardLayout><SalesReports /></DashboardLayout>} />
+          <Route path='/admin/sales/list' element={<DashboardLayout><SalesList /></DashboardLayout>} />
+          <Route path='/admin/sales/add-payment' element={<DashboardLayout><AddPayment /></DashboardLayout>} />
+          <Route path='/admin/sales/pending-payments' element={<DashboardLayout><PendingPayments /></DashboardLayout>} />
+          <Route path='/admin/sales/reports' element={<DashboardLayout><SalesReports /></DashboardLayout>} />
           
           {/* Bookings Routes */}
           <Route path='/bookings/inventory' element={<DashboardLayout><Inventory /></DashboardLayout>} />

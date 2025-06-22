@@ -22,14 +22,14 @@ const LightThemeColors = {
     lightBackground: '#F9FAFB',
     lightCardBackground: '#FFFFFF',
     lightDarkText: '#464646',
-    lightSuccess: '#8AC640',
+    lightSuccess: '#4CAF50',
     lightDanger: '#EB5463',
     lightWarning: '#FFCE55',
-    lightPrimary: '#5E9BEB',
-    lightSecondary: '#00726D',
-    brandSecondary: '#A300A3FF',
-    brandPrimary: 'rgb(101, 68, 101)',
-    brandTurnary: '#6C026BFF',
+    lightPrimary: '#6C026B',
+    lightSecondary: '#A300A3',
+    brandSecondary: '#A300A3',
+    brandPrimary: '#6C026B',
+    brandTurnary: '#4A0149',
   };
   
   export default LightThemeColors;

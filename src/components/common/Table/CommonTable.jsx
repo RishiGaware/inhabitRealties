@@ -84,11 +84,12 @@ const CommonTable = ({
         </Flex>
       )}
       <Table variant="simple" size="sm">
-        <Thead bg="brand.primary" display={{ base: 'none', md: 'table-header-group' }}>
+        <Thead display={{ base: 'none', md: 'table-header-group' }}>
           <Tr>
             {columns.map((column, index) => (
               <Th
                 key={column.key}
+                bg="brand.primary"
                 color="white"
                 fontWeight="semibold"
                 fontSize={{ base: '2xs', md: 'xs' }}
@@ -102,6 +103,7 @@ const CommonTable = ({
             ))}
             {rowActions && (
               <Th 
+                bg="brand.primary"
                 color="white" 
                 fontWeight="semibold" 
                 fontSize={{ base: '2xs', md: 'xs' }}

@@ -2,18 +2,18 @@
   --light-background: #F9FAFB;
   --light-card-background: #FFFFFF;
   --light-dark-text: #464646;
-  --light-success: #8AC640;
+  --light-success: #4CAF50;
   --light-danger: #EB5463;
   --light-warning: #FFCE55;
-  --light-primary: #A300A3;
-  --light-primary-dark: #7A007A;
-  --light-secondary: #00726D;
+  --light-primary: #6C026B;
+  --light-primary-dark: #4A0149;
+  --light-secondary: #A300A3;
   --light-shadow-color: rgba(0, 0, 0, 0.1);
 
   --brand-secondary: #A300A3;
-  --brand-primary: #2D2D2D;
-  --brand-turnary: #6C026B;
-  --brand-gradient: linear-gradient(to right, #A300A3, #D902DB, #6C026B);
+  --brand-primary: #6C026B;
+  --brand-turnary: #4A0149;
+  --brand-gradient: linear-gradient(to right, #A300A3, #6C026B, #4A0149);
 }
 
 /* Global scrollbar styling */

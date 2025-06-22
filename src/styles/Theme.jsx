@@ -1,4 +1,4 @@
-import { extendTheme, theme as base, withDefaultVariant } from "@chakra-ui/react"
+import { extendTheme, theme as base } from "@chakra-ui/react"
 import LightThemeColors from '../assets/Colors'
 
 const breakpoints = {
@@ -13,7 +13,7 @@ export const theme = extendTheme({
   breakpoints,
   colors: {
     brand: {
-      primary: 'var(--chakra-colors-light-darkText)',
+      primary: LightThemeColors.brandPrimary,
       secondary: LightThemeColors.brandSecondary,
       tertiary: LightThemeColors.brandTurnary,
     },

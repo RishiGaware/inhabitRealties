@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   useDisclosure,
@@ -53,133 +53,34 @@ const dummyUsers = [
     published: true,
   },
   {
-    _id: '1',
-    email: 'john.doe@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    phoneNumber: '+1234567890',
-    role: 'ADMIN',
+    _id: '3',
+    email: 'mike.johnson@example.com',
+    firstName: 'Mike',
+    lastName: 'Johnson',
+    phoneNumber: '+1122334455',
+    role: 'EXECUTIVE',
     createdByUserId: 'admin1',
     updatedByUserId: 'admin1',
-    published: true,
+    published: false,
   },
   {
-    _id: '2',
-    email: 'jane.smith@example.com',
-    firstName: 'Jane',
-    lastName: 'Smith',
-    phoneNumber: '+1987654321',
+    _id: '4',
+    email: 'sarah.wilson@example.com',
+    firstName: 'Sarah',
+    lastName: 'Wilson',
+    phoneNumber: '+1555666777',
     role: 'SALES',
     createdByUserId: 'admin1',
     updatedByUserId: 'admin1',
     published: true,
   },
   {
-    _id: '1',
-    email: 'john.doe@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    phoneNumber: '+1234567890',
-    role: 'ADMIN',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '2',
-    email: 'jane.smith@example.com',
-    firstName: 'Jane',
-    lastName: 'Smith',
-    phoneNumber: '+1987654321',
-    role: 'SALES',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '1',
-    email: 'john.doe@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    phoneNumber: '+1234567890',
-    role: 'ADMIN',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '2',
-    email: 'jane.smith@example.com',
-    firstName: 'Jane',
-    lastName: 'Smith',
-    phoneNumber: '+1987654321',
-    role: 'SALES',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '1',
-    email: 'john.doe@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    phoneNumber: '+1234567890',
-    role: 'ADMIN',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '2',
-    email: 'jane.smith@example.com',
-    firstName: 'Jane',
-    lastName: 'Smith',
-    phoneNumber: '+1987654321',
-    role: 'SALES',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '1',
-    email: 'john.doe@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    phoneNumber: '+1234567890',
-    role: 'ADMIN',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '2',
-    email: 'jane.smith@example.com',
-    firstName: 'Jane',
-    lastName: 'Smith',
-    phoneNumber: '+1987654321',
-    role: 'SALES',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '1',
-    email: 'john.doe@example.com',
-    firstName: 'John',
-    lastName: 'Doe',
-    phoneNumber: '+1234567890',
-    role: 'ADMIN',
-    createdByUserId: 'admin1',
-    updatedByUserId: 'admin1',
-    published: true,
-  },
-  {
-    _id: '2',
-    email: 'jane.smith@example.com',
-    firstName: 'Jane',
-    lastName: 'Smith',
-    phoneNumber: '+1987654321',
-    role: 'SALES',
+    _id: '5',
+    email: 'david.brown@example.com',
+    firstName: 'David',
+    lastName: 'Brown',
+    phoneNumber: '+1888999000',
+    role: 'USER',
     createdByUserId: 'admin1',
     updatedByUserId: 'admin1',
     published: true,
@@ -187,6 +88,8 @@ const dummyUsers = [
 ];
 
 const UserManagement = () => {
+  console.log('UserManagement component is rendering!'); // Debug log
+  
   const [users, setUsers] = useState(dummyUsers);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -445,7 +348,7 @@ const UserManagement = () => {
           isLoading={isLoading}
           rowActions={renderRowActions}
           emptyStateMessage="No users found"
-                    />
+        />
         <CommonPagination
           currentPage={currentPage}
           totalPages={totalPages}
