@@ -1,29 +1,22 @@
-import { Box, Stack } from "@chakra-ui/react";
-import Banner from '../components/Banner'
-import Search from '../components/Search/Search'
-import HouseList from '../components/Houses/HouseList';
-import PropertyAnimations from '../components/Animations/ImageSlider';
-import ImageSlider from '../components/Animations/ImageSlider';
-import GetStarted from '../components/GetStarted';
-import AboutUs from '../pages/common/AboutUs';
+import React from 'react';
+import Banner from '../components/Banner';
 import Features from '../pages/common/Features';
+import AboutUs from '../pages/common/AboutUs';
+import HouseList from '../components/Houses/HouseList';
+import GetStarted from '../components/GetStarted';
+import ImageSlider from '../components/Animations/ImageSlider';
 
 const Home = () => {
   return (
-    <Box>
-      <Stack spacing={{ base: 8, md: 16 }}>
-        <Banner />
-        <GetStarted />
-        <PropertyAnimations />
-        <Search />
-        <HouseList />
-        <ImageSlider />
-
-        <Features />
-        <AboutUs />
-      </Stack>
-    </Box>
-  )
-}
+    <div className="bg-white">
+      <Banner />
+      <Features />
+      <HouseList />
+      <ImageSlider />
+      <AboutUs />
+      <GetStarted />
+    </div>
+  );
+};
 
 export default Home;

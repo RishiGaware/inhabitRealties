@@ -1,158 +1,430 @@
+/**
+ * Global Theme System for Inhabit Realties
+ * 
+ * This file consolidates all theme tokens and creates a unified theme system.
+ * It combines colors, typography, spacing, and component styles.
+ */
+
 import { extendTheme } from '@chakra-ui/react';
+import { brandColors, semanticColors, neutralColors, lightTheme, realEstateColors } from './colors';
+import { fontFamilies, fontSizes, fontWeights, lineHeights, letterSpacing, typography } from './typography';
+import { spacing, borderRadius, borderWidth, shadows, zIndex } from './spacing';
 
-const colors = {
-  brand: {
-    primary: '#2563eb',    // Blue 600
-    secondary: '#1d4ed8',  // Blue 700
-    accent: '#3b82f6',     // Blue 500
+// Create Chakra UI theme configuration
+const theme = extendTheme({
+  // Colors
+  colors: {
+    // Brand colors
+    brand: {
+      primary: brandColors.primary,
+      secondary: brandColors.secondary,
+      accent: brandColors.accent,
+      tertiary: brandColors.tertiary,
+    },
+    
+    // Semantic colors
+    success: semanticColors.success,
+    warning: semanticColors.warning,
+    error: semanticColors.error,
+    info: semanticColors.info,
+    
+    // Neutral colors
+    gray: neutralColors.gray,
+    white: neutralColors.white,
+    black: neutralColors.black,
+    
+    // Light theme colors
+    light: {
+      background: lightTheme.background.primary,
+      cardBackground: lightTheme.background.secondary,
+      darkText: lightTheme.text.primary,
+      text: lightTheme.text.secondary,
+      mutedText: lightTheme.text.muted,
+      success: semanticColors.success[600],
+      danger: semanticColors.error[600],
+      warning: semanticColors.warning[600],
+      primary: semanticColors.info[600],
+      secondary: brandColors.primary,
+    },
+    
+    // Real estate specific colors
+    realEstate: realEstateColors,
   },
-  light: {
-    background: '#ffffff',
-    cardBackground: '#ffffff',
-    text: '#1f2937',      // Gray 800
-    darkText: '#111827',  // Gray 900
-    mutedText: '#6b7280', // Gray 500
-    success: '#059669',   // Green 600
-    danger: '#dc2626',    // Red 600
-    warning: '#d97706',   // Amber 600
-  },
-  gray: {
-    50: '#f9fafb',
-    100: '#f3f4f6',
-    200: '#e5e7eb',
-    300: '#d1d5db',
-    400: '#9ca3af',
-    500: '#6b7280',
-    600: '#4b5563',
-    700: '#374151',
-    800: '#1f2937',
-    900: '#111827',
-  },
-};
 
-const typography = {
+  // Typography
   fonts: {
-    heading: 'Inter, system-ui, sans-serif',
-    body: 'Inter, system-ui, sans-serif',
+    heading: fontFamilies.heading,
+    body: fontFamilies.body,
+    mono: fontFamilies.mono,
+    display: fontFamilies.display,
   },
-  fontSizes: {
-    xs: '0.75rem',    // 12px
-    sm: '0.875rem',   // 14px
-    md: '1rem',       // 16px
-    lg: '1.125rem',   // 18px
-    xl: '1.25rem',    // 20px
-    '2xl': '1.5rem',  // 24px
-    '3xl': '1.875rem' // 30px
-  },
-};
+  
+  fontSizes,
+  fontWeights,
+  lineHeights,
+  letterSpacing,
 
-const components = {
-  Button: {
-    baseStyle: {
-      fontWeight: 'semibold',
-      borderRadius: 'lg',
-    },
-    sizes: {
-      sm: {
-        fontSize: 'sm',
-        px: 4,
-        py: 2,
+  // Spacing
+  space: spacing,
+  sizes: spacing,
+  
+  // Border radius
+  radii: borderRadius,
+  
+  // Border width
+  borderWidths: borderWidth,
+  
+  // Shadows
+  shadows,
+  
+  // Z-index
+  zIndices: zIndex,
+
+  // Breakpoints
+  breakpoints: {
+    sm: '320px',
+    md: '500px',
+    lg: '720px',
+    xl: '960px',
+    '2xl': '1200px',
+  },
+
+  // Component styles
+  components: {
+    Button: {
+      baseStyle: {
+        fontWeight: fontWeights.semibold,
+        borderRadius: borderRadius.lg,
+        _focus: {
+          boxShadow: `0 0 0 3px ${brandColors.primary}20`,
+        },
       },
-      md: {
-        fontSize: 'md',
-        px: 6,
-        py: 2.5,
+      sizes: {
+        xs: {
+          fontSize: fontSizes.xs,
+          px: spacing.sm,
+          py: spacing.xs,
+        },
+        sm: {
+          fontSize: fontSizes.sm,
+          px: spacing.md,
+          py: spacing.sm,
+        },
+        md: {
+          fontSize: fontSizes.base,
+          px: spacing.lg,
+          py: spacing.md,
+        },
+        lg: {
+          fontSize: fontSizes.lg,
+          px: spacing.xl,
+          py: spacing.lg,
+        },
+        xl: {
+          fontSize: fontSizes.xl,
+          px: spacing['2xl'],
+          py: spacing.xl,
+        },
       },
-    },
-    variants: {
-      primary: {
-        bg: 'brand.primary',
-        color: 'white',
-        _hover: {
-          bg: 'brand.secondary',
+      variants: {
+        primary: {
+          bg: brandColors.primary,
+          color: neutralColors.white,
+          _hover: {
+            bg: brandColors.accent,
+            transform: 'translateY(-1px)',
+            boxShadow: shadows.md,
+          },
+          _active: {
+            bg: brandColors.tertiary,
+            transform: 'translateY(0)',
+          },
           _disabled: {
-            bg: 'brand.primary',
+            bg: neutralColors.gray[300],
+            color: neutralColors.gray[500],
+            cursor: 'not-allowed',
+            _hover: {
+              bg: neutralColors.gray[300],
+              transform: 'none',
+              boxShadow: 'none',
+            },
+          },
+        },
+        secondary: {
+          bg: neutralColors.gray[100],
+          color: lightTheme.text.primary,
+          border: `1px solid ${lightTheme.border.primary}`,
+          _hover: {
+            bg: neutralColors.gray[200],
+            borderColor: lightTheme.border.secondary,
+          },
+          _active: {
+            bg: neutralColors.gray[300],
+          },
+        },
+        outline: {
+          bg: 'transparent',
+          color: brandColors.primary,
+          border: `2px solid ${brandColors.primary}`,
+          _hover: {
+            bg: brandColors.primary,
+            color: neutralColors.white,
+          },
+        },
+        ghost: {
+          bg: 'transparent',
+          color: brandColors.primary,
+          _hover: {
+            bg: `${brandColors.primary}10`,
+          },
+        },
+        danger: {
+          bg: semanticColors.error[600],
+          color: neutralColors.white,
+          _hover: {
+            bg: semanticColors.error[700],
+          },
+        },
+        success: {
+          bg: semanticColors.success[600],
+          color: neutralColors.white,
+          _hover: {
+            bg: semanticColors.success[700],
           },
         },
       },
-      secondary: {
-        bg: 'gray.100',
-        color: 'gray.800',
-        _hover: {
-          bg: 'gray.200',
+      defaultProps: {
+        size: 'md',
+        variant: 'primary',
+      },
+    },
+
+    Text: {
+      baseStyle: {
+        color: lightTheme.text.primary,
+        fontFamily: fontFamilies.body,
+      },
+      variants: {
+        display: {
+          ...typography.display.large,
+          color: lightTheme.text.primary,
+        },
+        heading: {
+          ...typography.heading.h1,
+          color: lightTheme.text.primary,
+        },
+        body: {
+          ...typography.body.medium,
+          color: lightTheme.text.primary,
+        },
+        caption: {
+          ...typography.caption.medium,
+          color: lightTheme.text.muted,
+        },
+        label: {
+          ...typography.label.medium,
+          color: lightTheme.text.secondary,
+        },
+        link: {
+          color: brandColors.accent,
+          textDecoration: 'underline',
+          _hover: {
+            color: brandColors.primary,
+          },
         },
       },
-      danger: {
-        bg: 'light.danger',
-        color: 'white',
-        _hover: {
-          bg: 'red.700',
+      defaultProps: {
+        variant: 'body',
+      },
+    },
+
+    Heading: {
+      baseStyle: {
+        color: lightTheme.text.primary,
+        fontFamily: fontFamilies.heading,
+        fontWeight: fontWeights.bold,
+      },
+      variants: {
+        h1: typography.heading.h1,
+        h2: typography.heading.h2,
+        h3: typography.heading.h3,
+        h4: typography.heading.h4,
+        h5: typography.heading.h5,
+        h6: typography.heading.h6,
+      },
+      defaultProps: {
+        variant: 'h1',
+      },
+    },
+
+    Input: {
+      baseStyle: {
+        field: {
+          bg: lightTheme.background.secondary,
+          border: `1px solid ${lightTheme.border.primary}`,
+          borderRadius: borderRadius.md,
+          color: lightTheme.text.primary,
+          _focus: {
+            borderColor: brandColors.primary,
+            boxShadow: `0 0 0 1px ${brandColors.primary}`,
+          },
+          _hover: {
+            borderColor: lightTheme.border.secondary,
+          },
+          _placeholder: {
+            color: lightTheme.text.muted,
+          },
         },
       },
-      outline: {
-        borderColor: 'brand.primary',
-        color: 'brand.primary',
-        _hover: {
-          bg: 'brand.primary',
-          color: 'white',
+      sizes: {
+        sm: {
+          field: {
+            fontSize: fontSizes.sm,
+            px: spacing.sm,
+            py: spacing.xs,
+          },
+        },
+        md: {
+          field: {
+            fontSize: fontSizes.base,
+            px: spacing.md,
+            py: spacing.sm,
+          },
+        },
+        lg: {
+          field: {
+            fontSize: fontSizes.lg,
+            px: spacing.lg,
+            py: spacing.md,
+          },
+        },
+      },
+      defaultProps: {
+        size: 'md',
+      },
+    },
+
+    Card: {
+      baseStyle: {
+        container: {
+          bg: lightTheme.background.secondary,
+          borderRadius: borderRadius.lg,
+          boxShadow: shadows.sm,
+          border: `1px solid ${lightTheme.border.primary}`,
+        },
+        header: {
+          px: spacing.lg,
+          py: spacing.md,
+          borderBottom: `1px solid ${lightTheme.border.primary}`,
+        },
+        body: {
+          px: spacing.lg,
+          py: spacing.md,
+        },
+        footer: {
+          px: spacing.lg,
+          py: spacing.md,
+          borderTop: `1px solid ${lightTheme.border.primary}`,
         },
       },
     },
-    defaultProps: {
-      size: 'sm',
-      variant: 'primary',
-    },
-  },
-  Text: {
-    baseStyle: {
-      color: 'light.text',
-    },
-    variants: {
-      pageTitle: {
-        fontSize: 'xl',
-        fontWeight: 'bold',
-        color: 'light.darkText',
-      },
-      sectionTitle: {
-        fontSize: 'lg',
-        fontWeight: 'semibold',
-        color: 'light.darkText',
-      },
-      muted: {
-        color: 'light.mutedText',
-        fontSize: 'sm',
-      },
-    },
-  },
-  Table: {
-    variants: {
-      simple: {
+
+    Table: {
+      baseStyle: {
+        table: {
+          borderCollapse: 'collapse',
+        },
         th: {
-          fontSize: 'sm',
-          fontWeight: 'semibold',
-          py: 3,
-          px: 4,
+          bg: lightTheme.background.tertiary,
+          color: lightTheme.text.primary,
+          fontWeight: fontWeights.semibold,
+          textAlign: 'left',
+          py: spacing.md,
+          px: spacing.lg,
+          borderBottom: `1px solid ${lightTheme.border.primary}`,
         },
         td: {
-          fontSize: 'sm',
-          py: 3,
-          px: 4,
+          py: spacing.md,
+          px: spacing.lg,
+          borderBottom: `1px solid ${lightTheme.border.primary}`,
+          color: lightTheme.text.primary,
+        },
+        tr: {
+          _hover: {
+            bg: lightTheme.background.tertiary,
+          },
         },
       },
     },
-  },
-};
 
-const theme = extendTheme({
-  colors,
-  ...typography,
-  components,
+    Badge: {
+      baseStyle: {
+        borderRadius: borderRadius.full,
+        fontWeight: fontWeights.medium,
+        textTransform: 'none',
+        px: spacing.sm,
+        py: spacing.xs,
+      },
+      variants: {
+        solid: {
+          bg: brandColors.primary,
+          color: neutralColors.white,
+        },
+        outline: {
+          bg: 'transparent',
+          color: brandColors.primary,
+          border: `1px solid ${brandColors.primary}`,
+        },
+        subtle: {
+          bg: `${brandColors.primary}10`,
+          color: brandColors.primary,
+        },
+      },
+      defaultProps: {
+        variant: 'solid',
+      },
+    },
+  },
+
+  // Global styles
   styles: {
     global: {
       body: {
-        bg: 'gray.50',
-        color: 'light.text',
+        bg: lightTheme.background.primary,
+        color: lightTheme.text.primary,
+        fontFamily: fontFamilies.body,
+        fontSize: fontSizes.base,
+        lineHeight: lineHeights.relaxed,
       },
+      '*': {
+        borderColor: lightTheme.border.primary,
+      },
+    },
+  },
+
+  // Custom theme tokens for easy access
+  tokens: {
+    colors: {
+      brand: brandColors,
+      semantic: semanticColors,
+      neutral: neutralColors,
+      light: lightTheme,
+      realEstate: realEstateColors,
+    },
+    typography: {
+      fonts: fontFamilies,
+      sizes: fontSizes,
+      weights: fontWeights,
+      lineHeights,
+      letterSpacing,
+      styles: typography,
+    },
+    spacing: {
+      space: spacing,
+      borderRadius,
+      borderWidth,
+      shadows,
+      zIndex,
     },
   },
 });

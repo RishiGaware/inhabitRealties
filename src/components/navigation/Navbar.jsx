@@ -1,48 +1,46 @@
 import React from "react";
-import { FaBell, FaSearch, FaBars } from "react-icons/fa";
+import { FaBell, FaBars } from "react-icons/fa";
+import { CgProfile } from "react-icons/cg";
+import { Link as RouterLink } from "react-router-dom";
 
-const Navbar = ({ open, setOpen, isMobile }) => (
-  <div
-    className={`h-[8ch] px-4 md:px-12 bg-light-cardBackground shadow-lg border-b border-gray-200 flex items-center justify-between z-50 transition-all duration-300 fixed top-0 ${!isMobile ? 'rounded-b-2xl' : ''}`}
-    style={{
-      left: isMobile ? 0 : open ? '18rem' : '5rem',
-      width: isMobile ? '100vw' : `calc(100vw - ${open ? '18rem' : '5rem'})`,
-      backgroundColor: 'var(--light-card-background)',
-    }}
-  >
-    <div className="flex items-center gap-4">
-      {isMobile && (
-        <button onClick={() => setOpen(!open)} className="text-xl text-light-darkText hover:text-brand-primary transition-colors">
-          <FaBars />
+const Navbar = ({ onNotificationClick, onMobileOpen, sidebarOpen, setSidebarOpen }) => {
+  return (
+    <div className="flex items-center justify-between w-full px-4 bg-white border-b border-gray-200 h-14">
+      <div className="flex items-center gap-4">
+        <button
+          className="inline-flex md:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+          onClick={onMobileOpen}
+          aria-label="Menu"
+        >
+          <FaBars className="w-4 h-4" />
         </button>
-      )}
-      <div className="w-48 md:w-96 border border-light-primary rounded-full h-11 flex items-center justify-center bg-white">
-        <input 
-          type="text" 
-          placeholder="Search..." 
-          className="flex-1 h-full rounded-full outline-none border-none bg-transparent px-4 text-sm md:text-base text-light-darkText" 
-        />
-        <button className="px-4 h-full flex items-center justify-center text-base text-light-darkText border-l border-light-primary hover:text-brand-primary transition-colors">
-          <FaSearch />
+        
+        {/* Desktop toggle button */}
+        <button
+          className="hidden md:inline-flex p-2 rounded-md hover:bg-gray-100 transition-colors"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Toggle Sidebar"
+        >
+          <FaBars className="w-4 h-4" />
         </button>
       </div>
+
+      <div className="flex items-center gap-3">
+        <button
+          className="relative p-2 rounded-md hover:bg-gray-100 transition-colors"
+          onClick={onNotificationClick}
+          aria-label="Notifications"
+        >
+          <FaBell className="w-4 h-4" />
+          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        </button>
+        
+        <RouterLink to="/profile" className="p-2 rounded-md hover:bg-gray-100 transition-colors">
+          <CgProfile className="w-6 h-6 cursor-pointer" />
+        </RouterLink>
+      </div>
     </div>
-    <div className="flex items-center gap-x-4 md:gap-x-8">
-      {/* Notification */}
-      <button className="relative hover:text-brand-primary transition-colors">
-        <div className="w-5 h-5 bg-white flex items-center justify-center absolute -top-1.5 -right-2.5 rounded-full p-0.5 shadow-sm">
-          <span className="bg-light-danger text-white rounded-full w-full h-full flex items-center justify-center text-xs">3</span>
-        </div>
-        <FaBell className="text-xl text-light-darkText" />
-      </button>
-      {/* Profile img */}
-      <img 
-        src="https://cdn.pixabay.com/photo/2016/11/21/11/17/model-1844729_640.jpg" 
-        alt="profile img" 
-        className="w-8 h-8 md:w-11 md:h-11 rounded-full object-cover object-center cursor-pointer border-2 border-light-primary" 
-      />
-    </div>
-  </div>
-);
+  );
+};
 
 export default Navbar; 

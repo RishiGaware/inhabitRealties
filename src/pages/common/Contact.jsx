@@ -1,311 +1,78 @@
-import {
-  Box,
-  Container,
-  Heading,
-  Text,
-  SimpleGrid,
-  VStack,
-  HStack,
-  Input,
-  Textarea,
-  Button,
-  useColorModeValue,
-  Icon,
-  Image,
-  Flex,
-  Link,
-} from "@chakra-ui/react";
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaMapMarkedAlt } from "react-icons/fa";
+import React from 'react';
+import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 
 const Contact = () => {
-  const bgColor = useColorModeValue("light.background", "light.background");
-  const cardBg = useColorModeValue("light.cardBackground", "light.cardBackground");
-  const textColor = useColorModeValue("light.darkText", "light.darkText");
-  const primaryColor = useColorModeValue("brand.primary", "brand.primary");
-  const inputBg = useColorModeValue("white", "gray.700");
-
-  const locations = [
-    {
-      name: "New York Office",
-      address: "123 Real Estate St, New York, NY 10001",
-      coordinates: "40.7128,-74.0060",
-      image: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-4.0.3"
-    },
-    {
-      name: "Los Angeles Branch",
-      address: "456 Property Ave, Los Angeles, CA 90001",
-      coordinates: "34.0522,-118.2437",
-      image: "https://images.unsplash.com/photo-1515896769750-31548aa180ed?ixlib=rb-4.0.3"
-    }
-  ];
-
   return (
-    <Box w="100vw" position="relative" left="50%" right="50%" marginLeft="-50vw" marginRight="-50vw" bg={bgColor}>
-      <Container maxW="container.lg" px="6" py="16">
-        <VStack spacing={16} align="stretch">
-          {/* Header Section */}
-          <VStack spacing={4} textAlign="center">
-            <Heading color={textColor} fontSize={{ base: "2xl", md: "4xl" }}>
-              Get in Touch
-            </Heading>
-            <Text color={textColor} fontSize={{ base: "md", md: "lg" }} maxW="2xl">
-              Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-            </Text>
-          </VStack>
+    <div className="bg-gray-50">
+      <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
+            Get in Touch
+          </h1>
+          <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-500">
+            We'd love to hear from you. Whether you have a question about features, trials, pricing, or anything else, our team is ready to answer all your questions.
+          </p>
+        </div>
 
-          <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={10}>
-            {/* Left Side - Contact Form */}
-            <Box 
-              bg={cardBg} 
-              p={8} 
-              borderRadius="xl" 
-              boxShadow="lg"
-              border="1px solid"
-              borderColor="gray.200"
-              _hover={{
-                boxShadow: "2xl",
-                transform: "translateY(-5px)",
-                transition: "all 0.3s ease"
-              }}
-            >
-              <VStack spacing={6} align="stretch">
-                <Heading color={textColor} size="lg" borderBottom="2px solid" borderColor={primaryColor} pb={2}>
-                  Send us a Message
-                </Heading>
-                <VStack spacing={4} align="stretch">
-                  <Input
-                    placeholder="Your Name"
-                    bg={inputBg}
-                    color={textColor}
-                    _placeholder={{ color: "gray.500" }}
-                    size="lg"
-                    borderRadius="md"
-                    border="1px solid"
-                    borderColor="gray.300"
-                    _focus={{
-                      borderColor: primaryColor,
-                      boxShadow: `0 0 0 1px ${primaryColor}`,
-                    }}
-                  />
-                  <Input
-                    placeholder="Your Email"
-                    bg={inputBg}
-                    color={textColor}
-                    _placeholder={{ color: "gray.500" }}
-                    size="lg"
-                    borderRadius="md"
-                    border="1px solid"
-                    borderColor="gray.300"
-                    _focus={{
-                      borderColor: primaryColor,
-                      boxShadow: `0 0 0 1px ${primaryColor}`,
-                    }}
-                  />
-                  <Textarea
-                    placeholder="Your Message"
-                    bg={inputBg}
-                    color={textColor}
-                    _placeholder={{ color: "gray.500" }}
-                    rows={6}
-                    borderRadius="md"
-                    border="1px solid"
-                    borderColor="gray.300"
-                    _focus={{
-                      borderColor: primaryColor,
-                      boxShadow: `0 0 0 1px ${primaryColor}`,
-                    }}
-                  />
-                  <Button
-                    bg={bgColor}
-                    color="var(--lightDarkText);"
-                    _hover={{
-                      bg: bgColor,
-                      transform: "translateY(-2px)",
-                      boxShadow: "lg"
-                    }}
-                    _active={{
-                      bg: bgColor,
-                      transform: "translateY(0)"
-                    }}
-                    size="lg"
-                    borderRadius="md"
-                    fontSize="lg"
-                    fontWeight="bold"
-                    py={6}
-                    mt={80}
-                    transition="all 0.2s"
-                    
-                  >
-                    Send Message
-                  </Button>
-                </VStack>
-              </VStack>
-            </Box>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* Contact Form */}
+          <div className="lg:col-span-2 bg-white p-8 rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">Send us a Message</h2>
+            <form action="#" method="POST" className="space-y-6">
+              <div>
+                <label htmlFor="name" className="sr-only">Name</label>
+                <input type="text" name="name" id="name" placeholder="Your Name" className="w-full px-4 py-3 rounded-md border-gray-300 focus:ring-purple-500 focus:border-purple-500" />
+              </div>
+              <div>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input type="email" name="email" id="email" placeholder="Your Email" className="w-full px-4 py-3 rounded-md border-gray-300 focus:ring-purple-500 focus:border-purple-500" />
+              </div>
+              <div>
+                <label htmlFor="message" className="sr-only">Message</label>
+                <textarea name="message" id="message" rows="6" placeholder="Your Message" className="w-full px-4 py-3 rounded-md border-gray-300 focus:ring-purple-500 focus:border-purple-500"></textarea>
+              </div>
+              <div>
+                <button type="submit" className="w-full bg-purple-600 text-white font-bold py-3 px-6 rounded-md hover:bg-purple-700 transition-colors">
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
 
-            {/* Right Side - Contact Info & Map */}
-            <VStack spacing={8} align="stretch">
-              {/* Contact Info Cards */}
-              <SimpleGrid columns={{ base: 1, md: 2 }} spacing={6}>
-                {[
-                  {
-                    icon: FaPhone,
-                    title: "Phone",
-                    content: "+1 (555) 123-4567",
-                    description: "Mon-Fri from 8am to 6pm"
-                  },
-                  {
-                    icon: FaEnvelope,
-                    title: "Email",
-                    content: "support@.com",
-                    description: "We'll respond within 24 hours"
-                  },
-                  {
-                    icon: FaMapMarkerAlt,
-                    title: "Office",
-                    content: "123 Real Estate St",
-                    description: "New York, NY 10001"
-                  },
-                  {
-                    icon: FaMapMarkerAlt,
-                    title: "Branch",
-                    content: "456 Property Ave",
-                    description: "Los Angeles, CA 90001"
-                  }
-                ].map((item, index) => (
-                  <Box
-                    key={index}
-                    bg={cardBg}
-                    p={6}
-                    borderRadius="xl"
-                    boxShadow="md"
-                    border="1px solid"
-                    borderColor="gray.200"
-                    transition="all 0.3s"
-                    _hover={{
-                      transform: "translateY(-5px)",
-                      boxShadow: "lg",
-                      borderColor: primaryColor
-                    }}
-                  >
-                    <VStack spacing={3} align="start">
-                      <Icon as={item.icon} w={6} h={6} color={primaryColor} />
-                      <Heading size="sm" color={textColor}>
-                        {item.title}
-                      </Heading>
-                      <Text color={primaryColor} fontWeight="bold">
-                        {item.content}
-                      </Text>
-                      <Text color={textColor} fontSize="sm">
-                        {item.description}
-                      </Text>
-                    </VStack>
-                  </Box>
-                ))}
-              </SimpleGrid>
-
-              {/* Interactive Maps */}
-              <VStack spacing={6}>
-                {locations.map((location, index) => (
-                  <Link
-                    key={index}
-                    href={`https://www.google.com/maps?q=${location.coordinates}`}
-                    isExternal
-                    _hover={{ textDecoration: 'none' }}
-                  >
-                    <Box
-                      bg={cardBg}
-                      p={4}
-                      borderRadius="xl"
-                      boxShadow="md"
-                      overflow="hidden"
-                      h="200px"
-                      border="1px solid"
-                      borderColor="gray.200"
-                      position="relative"
-                      _hover={{
-                        boxShadow: "lg",
-                        transform: "translateY(-5px)",
-                        transition: "all 0.3s ease",
-                        "& .map-overlay": {
-                          opacity: 1
-                        }
-                      }}
-                    >
-                      <Image
-                        src={location.image}
-                        alt={location.name}
-                        objectFit="cover"
-                        w="100%"
-                        h="100%"
-                        borderRadius="lg"
-                      />
-                      <Box
-                        className="map-overlay"
-                        position="absolute"
-                        top={0}
-                        left={0}
-                        right={0}
-                        bottom={0}
-                        bg="rgba(0,0,0,0.5)"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        opacity={0}
-                        transition="opacity 0.3s ease"
-                      >
-                        <VStack spacing={2}>
-                          <Icon as={FaMapMarkedAlt} w={8} h={8} color="white" />
-                          <Text color="white" fontWeight="bold">
-                            View on Google Maps
-                          </Text>
-                        </VStack>
-                      </Box>
-                      <Box
-                        position="absolute"
-                        bottom={0}
-                        left={0}
-                        right={0}
-                        p={4}
-                        bg="rgba(0,0,0,0.7)"
-                      >
-                        <Text color="white" fontWeight="bold">
-                          {location.name}
-                        </Text>
-                        <Text color="white" fontSize="sm">
-                          {location.address}
-                        </Text>
-                      </Box>
-                    </Box>
-                  </Link>
-                ))}
-              </VStack>
-
-              {/* Social Media Links */}
-              <HStack spacing={4} justify="center">
-                {[FaFacebook, FaTwitter, FaLinkedin, FaInstagram].map((Icon, index) => (
-                  <Button
-                    key={index}
-                    as="a"
-                    href="#"
-                    size="lg"
-                    variant="ghost"
-                    color={primaryColor}
-                    _hover={{ 
-                      bg: "rgba(255, 56, 92, 0.1)",
-                      transform: "translateY(-2px)",
-                      boxShadow: "md"
-                    }}
-                    transition="all 0.2s"
-                  >
-                    <Icon size={20} />
-                  </Button>
-                ))}
-              </HStack>
-            </VStack>
-          </SimpleGrid>
-        </VStack>
-      </Container>
-    </Box>
+          {/* Contact Information */}
+          <div className="space-y-8">
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">Contact Information</h3>
+              <div className="space-y-4 text-gray-600">
+                <p className="flex items-center">
+                  <FaMapMarkerAlt className="w-5 h-5 mr-3 text-purple-600" />
+                  123 Real Estate St, New York, NY 10001
+                </p>
+                <p className="flex items-center">
+                  <FaEnvelope className="w-5 h-5 mr-3 text-purple-600" />
+                  support@inhabit.com
+                </p>
+                <p className="flex items-center">
+                  <FaPhone className="w-5 h-5 mr-3 text-purple-600" />
+                  +1 (555) 123-4567
+                </p>
+              </div>
+            </div>
+            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.220131835108!2d-73.98801558459388!3d40.74844097932824!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e192a415a556!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1628882 Empire State Building"
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

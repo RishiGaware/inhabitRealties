@@ -1,140 +1,99 @@
-import {
-  Box,
-  Container,
-  Heading,
-  Text,
-  SimpleGrid,
-  Image,
-  VStack,
-  HStack,
-  useColorModeValue,
-} from "@chakra-ui/react";
-
-const stats = [
-  { number: "10K+", label: "Properties Listed" },
-  { number: "5K+", label: "Happy Clients" },
-  { number: "100+", label: "Cities Covered" },
-  { number: "24/7", label: "Support" },
-];
+import React from 'react';
+import { FaUserFriends, FaHome, FaHandshake } from 'react-icons/fa';
+import aboutImage from '../../assets/images/loginImage1.jpg'; // Reusing a nice image
+import useOnScreen from '../../hooks/useOnScreen';
 
 const AboutUs = () => {
-  const bgColor = useColorModeValue("light.background", "light.background");
-  const cardBg = useColorModeValue("light.cardBackground", "light.cardBackground");
-  const textColor = useColorModeValue("light.darkText", "light.darkText");
-  const primaryColor = useColorModeValue("brand.primary", "brand.primary");
+  const [headingRef, isVisible] = useOnScreen({ threshold: 0.3 });
+  const [contentRef, isContentVisible] = useOnScreen({ threshold: 0.2 });
 
   return (
-    <Box bg={bgColor}>
-      <Container maxW="container.lg" px="6" py="16">
-        <VStack spacing={16} align="stretch">
-          {/* Hero Section */}
-          <VStack spacing={8} textAlign="center">
-            <Heading color={textColor} fontSize={{ base: "2xl", md: "4xl" }}>
-              About Inhabit Realties
-            </Heading>
-            <Text color={textColor} fontSize={{ base: "md", md: "lg" }} maxW="3xl">
-              We are dedicated to making your real estate journey seamless and successful. 
-              Our platform connects buyers, sellers, and agents in a trusted environment.
-            </Text>
-          </VStack>
+    <div className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div ref={headingRef} className="lg:text-center">
+          <h2
+            className={`text-base text-purple-600 font-semibold tracking-wide uppercase transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+          >
+            About Us
+          </h2>
+          <p
+            className={`mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl transition-all duration-700 delay-200 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+          >
+            Your Trusted Partner in Real Estate
+          </p>
+          <p
+            className={`mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto transition-all duration-700 delay-300 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+          >
+            We are dedicated to making your real estate journey seamless and successful. Our platform connects buyers, sellers, and agents in a trusted and efficient ecosystem.
+          </p>
+        </div>
 
-          {/* Stats Section */}
-          <SimpleGrid columns={{ base: 2, md: 4 }} spacing={8}>
-            {stats.map((stat, index) => (
-              <Box
-                key={index}
-                bg={cardBg}
-                p={6}
-                borderRadius="xl"
-                textAlign="center"
-                boxShadow="md"
-              >
-                <Text color={primaryColor} fontSize="3xl" fontWeight="bold">
-                  {stat.number}
-                </Text>
-                <Text color={textColor} fontSize="sm">
-                  {stat.label}
-                </Text>
-              </Box>
-            ))}
-          </SimpleGrid>
-
-          {/* Mission Section */}
-          <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10} alignItems="center">
-            <VStack spacing={6} align="start">
-              <Heading color={textColor} size="lg">
-                Our Mission
-              </Heading>
-              <Text color={textColor}>
-                To revolutionize the real estate industry by providing a transparent, 
-                efficient, and user-friendly platform that empowers people to make 
-                informed decisions about their property investments.
-              </Text>
-              <Text color={textColor}>
-                We believe in creating lasting relationships with our clients and 
-                partners, ensuring that every real estate transaction is a success story.
-              </Text>
-            </VStack>
-            <Box
-              bg={cardBg}
-              p={4}
-              borderRadius="xl"
-              boxShadow="md"
-              overflow="hidden"
+        <div ref={contentRef} className="mt-12 lg:mt-20">
+          <div className="grid lg:grid-cols-2 lg:gap-x-12">
+            <div
+              className={`relative transition-all duration-1000 ${
+                isContentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+              }`}
             >
-              <Image
-                src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3"
-                alt="Real Estate"
-                borderRadius="lg"
-                objectFit="cover"
-                w="100%"
-                h="300px"
-              />
-            </Box>
-          </SimpleGrid>
-
-          {/* Values Section */}
-          <VStack spacing={8} align="stretch">
-            <Heading color={textColor} textAlign="center" size="lg">
-              Our Values
-            </Heading>
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={8}>
-              {[
-                {
-                  title: "Integrity",
-                  description: "We conduct our business with honesty and transparency."
-                },
-                {
-                  title: "Innovation",
-                  description: "We continuously improve our platform with cutting-edge technology."
-                },
-                {
-                  title: "Customer Focus",
-                  description: "We put our clients' needs at the heart of everything we do."
-                }
-              ].map((value, index) => (
-                <Box
-                  key={index}
-                  bg={cardBg}
-                  p={6}
-                  borderRadius="xl"
-                  boxShadow="md"
-                >
-                  <VStack spacing={4} align="start">
-                    <Heading color={primaryColor} size="md">
-                      {value.title}
-                    </Heading>
-                    <Text color={textColor}>
-                      {value.description}
-                    </Text>
-                  </VStack>
-                </Box>
-              ))}
-            </SimpleGrid>
-          </VStack>
-        </VStack>
-      </Container>
-    </Box>
+              <img className="rounded-2xl shadow-xl w-full h-full object-cover" src={aboutImage} alt="About us" />
+            </div>
+            <div
+              className={`mt-10 lg:mt-0 flex flex-col justify-center transition-all duration-1000 delay-200 ${
+                isContentVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+              }`}
+            >
+              <div className="space-y-10">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
+                      <FaHome />
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">Comprehensive Listings</h3>
+                    <p className="mt-2 text-base text-gray-500">
+                      Access a wide range of properties, from cozy apartments to luxurious villas, all in one place.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
+                      <FaUserFriends />
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">Expert Agents</h3>
+                    <p className="mt-2 text-base text-gray-500">
+                      Connect with our network of professional and experienced real estate agents who are ready to assist you.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex-shrink-0">
+                    <div className="flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white">
+                      <FaHandshake />
+                    </div>
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">Transparent Process</h3>
+                    <p className="mt-2 text-base text-gray-500">
+                      We believe in transparency. Enjoy a clear and straightforward process from searching to closing the deal.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

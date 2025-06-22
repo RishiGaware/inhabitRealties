@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BiChat, BiUser, BiUserPlus } from "react-icons/bi";
-import { FaChevronDown, FaChevronRight, FaCog, FaUsers, FaChartLine, FaFileAlt, FaCalendarAlt, FaMoneyBillWave, FaHandshake, FaBuilding } from "react-icons/fa";
-import { FiTable } from "react-icons/fi";
-import { GoGraph } from "react-icons/go";
-import { MdOutlineHeadsetMic, MdSpaceDashboard, MdAssignment, MdInventory, MdPayment, MdPerson } from "react-icons/md";
+import { BiUser, BiUserPlus } from "react-icons/bi";
+import { FaChevronDown, FaChevronRight, FaCog, FaUsers, FaMoneyBillWave, FaHandshake, FaBuilding, FaHome, FaChartBar } from "react-icons/fa";
+import { MdSpaceDashboard, MdInventory, MdPerson } from "react-icons/md";
 import { TbLayoutSidebarLeftCollapse, TbLayoutSidebarLeftExpand } from "react-icons/tb";
-import { TiCalendar } from "react-icons/ti";
 import logown from '../../assets/images/logown.png'
 import sbicon from '../../assets/images/sb-icon.webp'
-import PropertyMaster from '../../pages/property/propertyMaster/PropertyMaster';
-import PropertyTypes from '../../pages/property/propertyTypes/PropertyTypes';
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
@@ -20,8 +15,8 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
 
   const Menus = [
     { title: "Dashboard", icon: <MdSpaceDashboard />, key: "dashboard" },
-    { 
-      title: "Admin", 
+    {
+        title: "Admin",
       icon: <FaUsers />, 
       gap: true,
       subMenu: [
@@ -31,8 +26,8 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
       ],
       key: "admin"
     },
-    { 
-      title: "Property", 
+    {
+        title: "Property",
       icon: <FaBuilding />,
       subMenu: [
         "Property Master",
@@ -40,8 +35,8 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
       ],
       key: "property"
     },
-    { 
-      title: "Lead Management", 
+    {
+        title: "Lead Management",
       icon: <BiUserPlus />,
       subMenu: [
         "Add Lead",
@@ -50,8 +45,8 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
       ],
       key: "leads"
     },
-    { 
-      title: "Customer Management", 
+    {
+        title: "Customer Management",
       icon: <BiUser />,
       subMenu: [
         "Customer Profiles",
@@ -62,7 +57,17 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
     },
     
     // Sales Module
-    { 
+    {
+        title: "Sales Management",
+      icon: <FaMoneyBillWave />,
+      subMenu: [
+        "Sales List",
+        "Pending Payments",
+        "Sales Reports"
+        ],
+      key: "sales"
+    },
+    {
       title: "Bookings", 
       icon: <MdInventory />,
       subMenu: [
@@ -72,7 +77,7 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
       ],
       key: "bookings"
     },
-    { 
+    {
       title: "Payments", 
       icon: <FaMoneyBillWave />,
       subMenu: [
@@ -82,8 +87,26 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
       ],
       key: "payments"
     },
-    { 
-      title: "Post-Sale", 
+    {
+      title: "Rent Management", 
+      icon: <FaHome />,
+      subMenu: [
+        "Rent Roll",
+        "Lease Management"
+      ],
+      key: "rent"
+    },
+    {
+      title: "Accounting", 
+      icon: <FaChartBar />,
+      subMenu: [
+        "Expense Tracking",
+        "Income Statement"
+      ],
+      key: "accounting"
+    },
+    {
+        title: "Post-Sale",
       icon: <FaHandshake />,
       subMenu: [
         "Referrals",
@@ -152,8 +175,20 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
     if (!menu.subMenu) {
       setSelectedMenu(menuKey);
       setSelectedSubMenu('');
-      navigate(`/${menuKey}`);
-    } else {
+      
+      // Handle main menu routes
+      const mainMenuRoutes = {
+        'dashboard': '/dashboard',
+        'settings': '/settings'
+      };
+      
+      const route = mainMenuRoutes[menuKey];
+      if (route) {
+        navigate(route);
+      } else {
+        navigate(`/${menuKey}`);
+      }
+        } else {
       toggleSubMenu(menu.key);
       setSelectedMenu(menuKey);
     }
@@ -168,10 +203,73 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
     if (!subMenus[menu.key]) {
       toggleSubMenu(menu.key);
     }
-    navigate(`/${menuKey}/${subMenuKey}`);
-  };
+    
+    // Map menu items to their correct routes
+    const routeMap = {
+      'admin': {
+        'user-management': '/admin/user-management',
+        'role-management': '/admin/role-management',
+        'reports': '/admin/reports'
+      },
+      'property': {
+        'property-master': '/property/property-master',
+        'property-types': '/property/property-types'
+      },
+      'leads': {
+        'add-lead': '/lead/add',
+        'view-leads': '/lead/view',
+        'lead-qualification': '/lead/qualification'
+      },
+      'customers': {
+        'customer-profiles': '/customers/profiles',
+        'documents': '/customers/documents',
+        'site-visits': '/customers/site-visits'
+      },
+      'sales': {
+        'sales-list': '/admin/sales/list',
+        'pending-payments': '/admin/sales/pending-payments',
+        'sales-reports': '/admin/sales/reports'
+      },
+      'bookings': {
+        'inventory': '/bookings/inventory',
+        'booked-units': '/bookings/booked-units',
+        'payment-status': '/bookings/payment-status'
+      },
+      'payments': {
+        'installments': '/payments/installments',
+        'payment-history': '/payments/payment-history',
+        'due-payments': '/payments/due-payments'
+      },
+      'rent': {
+        'rent-roll': '/rent/rent-roll',
+        'lease-management': '/rent/lease-management'
+      },
+      'accounting': {
+        'expense-tracking': '/admin/accounting/expense-tracking',
+        'income-statement': '/admin/accounting/income-statement'
+      },
+      'postSale': {
+        'referrals': '/post-sale/referrals',
+        'rewards': '/post-sale/rewards',
+        'points': '/post-sale/points'
+      },
+      'client': {
+        'my-bookings': '/client/my-bookings',
+        'documents': '/client/documents',
+        'payments': '/client/payments',
+        'referrals': '/client/referrals'
+      }
+    };
+    
+    const route = routeMap[menu.key]?.[subMenuKey];
+    if (route) {
+      navigate(route);
+    } else {
+      navigate(`/${menuKey}/${subMenuKey}`);
+        }
+    };
 
-  return (
+    return (
     <>
       {/* Overlay for mobile */}
       {isMobile && open && (
@@ -230,7 +328,7 @@ const Sidebar = ({ open, setOpen, subMenus, toggleSubMenu, isMobile }) => {
                   ${Menu.gap ? "mt-9" : "mt-2"}
                   hover:bg-gray-50/50`}
                 onClick={() => handleMenuClick(Menu)}
-              >
+    >
                 <div className="flex items-center justify-between gap-x-4">
                   <div className="flex items-center gap-2">
                     <span className={`transition-colors duration-200 ${isMobile ? 'text-lg' : 'text-2xl'} 

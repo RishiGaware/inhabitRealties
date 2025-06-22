@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
+import Notifications from "../../pages/notifications/Notifications";
+import { useLocation } from "react-router-dom";
 
 const DashboardLayout = ({ children }) => {
-  const [open, setOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [subMenus, setSubMenus] = useState({
-    admin: false,
-    leads: false,
-    customers: false,
-    bookings: false,
-    payments: false,
-    postSale: false,
-    client: false,
-    settings: false,
-    property: false,
-  });
+  const [subMenus, setSubMenus] = useState({});
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const location = useLocation();
 
+  // Handle responsive behavior
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth < 1024;
+      const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
-      if (mobile) {
-        setOpen(false);
+      if (!mobile) {
+        setSidebarOpen(true);
       } else {
-        setOpen(true);
+        setSidebarOpen(false);
       }
     };
 
@@ -33,34 +28,67 @@ const DashboardLayout = ({ children }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const toggleSubMenu = (menu) => {
-    setSubMenus((prev) => ({
-      ...prev, [menu]: !prev[menu],
+  // Initialize submenus based on current route
+  useEffect(() => {
+    const path = location.pathname.split('/');
+    if (path[1] && path[2]) {
+      // If we're on a submenu page, ensure the parent menu is expanded
+      const parentKey = path[1];
+      if (!subMenus[parentKey]) {
+        setSubMenus(prev => ({
+          ...prev,
+          [parentKey]: true
+        }));
+      }
+    }
+  }, [location.pathname]);
+
+  const toggleSubMenu = (menuKey) => {
+    setSubMenus(prev => ({
+      ...prev,
+      [menuKey]: !prev[menuKey]
     }));
   };
 
+  const handleMobileOpen = () => {
+    setSidebarOpen(true);
+  };
+
+  const handleNotificationClick = () => {
+    setIsNotificationsOpen(true);
+  };
+
+  const handleNotificationClose = () => {
+    setIsNotificationsOpen(false);
+  };
+
   return (
-    <div className="w-full flex">
-      <Sidebar open={open} setOpen={setOpen} subMenus={subMenus} toggleSubMenu={toggleSubMenu} isMobile={isMobile} />
-      <div
-        className={`flex-1 min-h-screen bg-light-background relative transition-all duration-300 ${
-          isMobile
-            ? 'w-full ml-0'
-            : open
-            ? 'ml-72'
-            : 'ml-20'
-        }`}
-      >
-        <div className="fixed top-0 left-0 w-full z-10" style={{ marginLeft: isMobile ? 0 : open ? '18rem' : '5rem' }}>
-        <Navbar open={open} setOpen={setOpen} isMobile={isMobile} />
-        </div>
-        <div
-          className="w-full px-4 md:px-12 pt-[8ch] pb-4 overflow-y-auto"
-          style={{ minHeight: '100vh' }}
-        >
-          {children}
-        </div>
+    <div className="min-h-screen bg-gray-100">
+      <Sidebar 
+        open={sidebarOpen}
+        setOpen={setSidebarOpen}
+        subMenus={subMenus}
+        toggleSubMenu={toggleSubMenu}
+        isMobile={isMobile}
+      />
+      
+      <Navbar 
+        onMobileOpen={handleMobileOpen} 
+        onNotificationClick={handleNotificationClick}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
+
+      <div className={`transition-all duration-300 ease-in-out p-4 ${
+        sidebarOpen && !isMobile ? 'ml-72' : 'ml-20'
+      } ${isMobile ? 'ml-0' : ''}`}>
+        {children}
       </div>
+
+      <Notifications 
+        isOpen={isNotificationsOpen} 
+        onClose={handleNotificationClose} 
+      />
     </div>
   );
 };

@@ -1,128 +1,73 @@
-import {
-  Box,
-  Container,
-  Heading,
-  Text,
-  SimpleGrid,
-  Icon,
-  VStack,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { FaHome, FaSearch, FaHandshake, FaChartLine } from "react-icons/fa";
+import React from 'react';
+import { FaAward, FaUsers, FaBuilding } from 'react-icons/fa';
+import useOnScreen from '../../hooks/useOnScreen';
 
-const MotionBox = motion(Box);
-const MotionIcon = motion(Icon);
-
-const features = [
-  {
-    icon: FaHome,
-    title: "Wide Range of Properties",
-    description: "Browse through thousands of verified properties across different locations and price ranges."
-  },
-  {
-    icon: FaSearch,
-    title: "Smart Search",
-    description: "Find your perfect home with our advanced search filters and location-based recommendations."
-  },
-  {
-    icon: FaHandshake,
-    title: "Trusted Partners",
-    description: "Work with verified real estate agents and property owners for a secure transaction."
-  },
-  {
-    icon: FaChartLine,
-    title: "Market Insights",
-    description: "Get real-time market trends and property value insights to make informed decisions."
-  }
+const stats = [
+  { icon: <FaBuilding className="text-4xl text-purple-600" />, value: '1200+', label: 'Premium Properties' },
+  { icon: <FaUsers className="text-4xl text-purple-600" />, value: '4500+', label: 'Happy Customers' },
+  { icon: <FaAward className="text-4xl text-purple-600" />, value: '240+', label: 'Awards Winning' },
 ];
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.9 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      delay: i * 0.2,
-      type: "spring",
-      stiffness: 120,
-      damping: 14
-    }
-  })
-};
-
-const iconVariants = {
-  initial: { scale: 0, rotate: -180 },
-  animate: { scale: 1, rotate: 0, transition: { type: "spring", stiffness: 200, damping: 20 } },
-  hover: { scale: 1.2, rotate: 360, transition: { duration: 0.5 } }
+const FeatureCard = ({ stat, index }) => {
+  const [cardRef, isCardVisible] = useOnScreen({ threshold: 0.2 });
+  return (
+    <div
+      ref={cardRef}
+      key={stat.label}
+      className={`relative text-center p-6 bg-white rounded-lg shadow-lg transform transition-all duration-500 hover:-translate-y-2 ${
+        isCardVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+      }`}
+      style={{ transitionDelay: `${index * 150}ms` }}
+    >
+      <dt>
+        <div className="flex items-center justify-center h-16 w-16 mx-auto mb-4">
+          {stat.icon}
+        </div>
+        <p className="text-3xl font-bold leading-6 text-gray-900">{stat.value}</p>
+      </dt>
+      <dd className="mt-2 text-base font-medium text-gray-500">{stat.label}</dd>
+    </div>
+  );
 };
 
 const Features = () => {
-  const bgColor = useColorModeValue("light.background", "light.background");
-  const cardBg = useColorModeValue("light.cardBackground", "light.cardBackground");
-  const textColor = useColorModeValue("light.darkText", "light.darkText");
-  const primaryColor = useColorModeValue("brand.primary", "brand.primary");
+  const [headingRef, isVisible] = useOnScreen({ threshold: 0.3 });
 
   return (
-    <Box 
-      bg={bgColor}
-      minH="60vh"
-      display="flex"
-      flexDirection="column"
-      py={{ base: 8, md: 16 }}
-    >
-      <Container maxW="container.lg" px="6" flex="1">
-        <VStack spacing={12} align="stretch">
-          <VStack spacing={4} textAlign="center">
-            <Heading color={textColor} fontSize={{ base: "2xl", md: "4xl" }}>
-              Our Features
-            </Heading>
-            <Text color={textColor} fontSize={{ base: "md", md: "lg" }} maxW="2xl">
-              Discover why thousands of people trust us for their real estate needs
-            </Text>
-          </VStack>
-
-          <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={10}>
-            {features.map((feature, index) => (
-              <MotionBox
-                key={index}
-                custom={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-80px" }}
-                variants={cardVariants}
-                whileHover={{ scale: 1.04, boxShadow: "2xl", y: -8 }}
-                transition={{ type: "spring", stiffness: 120 }}
-                bg={cardBg}
-                p={8}
-                borderRadius="xl"
-                boxShadow="md"
-              >
-                <VStack spacing={4} align="start">
-                  <MotionIcon
-                    as={feature.icon}
-                    w={10}
-                    h={10}
-                    color={primaryColor}
-                    variants={iconVariants}
-                    initial="initial"
-                    animate="animate"
-                    whileHover="hover"
-                  />
-                  <Heading size="md" color={textColor}>
-                    {feature.title}
-                  </Heading>
-                  <Text color={textColor} fontSize="sm">
-                    {feature.description}
-                  </Text>
-                </VStack>
-              </MotionBox>
+    <div className="bg-gray-50 py-12 sm:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div ref={headingRef} className="max-w-2xl mx-auto lg:text-center">
+          <h2
+            className={`text-base text-purple-600 font-semibold tracking-wide uppercase transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+          >
+            Why Choose Us
+          </h2>
+          <p
+            className={`mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl transition-all duration-700 delay-200 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+          >
+            Find Real Estate That Suits You.
+          </p>
+          <p
+            className={`mt-4 text-xl text-gray-500 transition-all duration-700 delay-300 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
+            }`}
+          >
+            Experience a seamless and transparent real estate journey with our dedicated team of experts. We are committed to helping you find the perfect property that meets your needs and exceeds your expectations.
+          </p>
+        </div>
+        <div className="mt-10">
+          <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-3 md:gap-x-8 md:gap-y-10">
+            {stats.map((stat, index) => (
+              <FeatureCard key={stat.label} stat={stat} index={index} />
             ))}
-          </SimpleGrid>
-        </VStack>
-      </Container>
-    </Box>
+          </dl>
+        </div>
+      </div>
+    </div>
   );
 };
 
