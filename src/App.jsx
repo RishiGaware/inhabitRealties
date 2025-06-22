@@ -69,7 +69,7 @@ const MainLayout = ({ children }) => {
 };
 
 const AuthLayout = ({ children }) => {
-  return <div className="h-screen overflow-hidden">{children}</div>;
+  return <div className="min-h-screen">{children}</div>;
 };
 
 const App = () => {
